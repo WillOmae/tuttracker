@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "116377093684",
+    "firebase_url": "https://tuttracker.firebaseio.com",
+    "project_id": "tuttracker",
+    "storage_bucket": "tuttracker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:116377093684:android:2f3a355cde7b6006fc6c61",
+        "android_client_info": {
+          "package_name": "dev.wilburomae.tuttracker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "116377093684-5qou7mqg1cbo2jblm29p16b2u02riv2s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFwR8NOlGCtNwwuom6-si8ZOz8T50fu_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "116377093684-5qou7mqg1cbo2jblm29p16b2u02riv2s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

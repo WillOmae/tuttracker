@@ -32,6 +32,7 @@ import java.util.List;
 
 import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
+import dev.wilburomae.tuttracker.views.adapters.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseUser mUser;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mContext = this;
 
-        mViewPager = findViewById(R.id.home_viewPager);
+        ViewPager viewPager = findViewById(R.id.home_viewPager);
         TabLayout tabLayout = findViewById(R.id.home_tabs);
         Toolbar toolbar = findViewById(R.id.home_toolbar);
         mNavigationView = findViewById(R.id.home_navDrawer);
@@ -63,6 +63,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }
+        SectionsPagerAdapter sectionsAdapter = new SectionsPagerAdapter(mContext, getSupportFragmentManager());
+
+        viewPager.setAdapter(sectionsAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
         mNavigationView.bringToFront();
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -102,15 +106,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void modifyNavDrawerUserDetails() {
-        MenuItem navProfile = mNavigationView.getMenu().findItem(R.id.nav_menu_profile);
         MenuItem navLogout = mNavigationView.getMenu().findItem(R.id.nav_menu_log_out);
         MenuItem navSignin = mNavigationView.getMenu().findItem(R.id.nav_menu_sign_in);
         if (mUser == null) {
-            navProfile.setVisible(false);
             navLogout.setVisible(false);
             navSignin.setVisible(true);
         } else {
-            navProfile.setVisible(true);
             navLogout.setVisible(true);
             navSignin.setVisible(false);
         }
@@ -154,16 +155,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.nav_menu_help:
-                break;
-            case R.id.nav_menu_legal:
-                break;
             case R.id.nav_menu_log_out:
                 signOutUser();
-                break;
-            case R.id.nav_menu_profile:
-                break;
-            case R.id.nav_menu_settings:
                 break;
             case R.id.nav_menu_sign_in:
                 signInUser();

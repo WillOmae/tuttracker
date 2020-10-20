@@ -1,4 +1,4 @@
-package dev.wilburomae.tuttracker.views.Listeners;
+package dev.wilburomae.tuttracker.views.listeners;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -16,7 +16,7 @@ import androidx.fragment.app.DialogFragment;
 
 import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
-import dev.wilburomae.tuttracker.views.Listeners.IAccountTypeDialogListener;
+import dev.wilburomae.tuttracker.views.listeners.IAccountTypeDialogListener;
 
 public class AccountTypeDialog extends DialogFragment {
     private Context mContext;

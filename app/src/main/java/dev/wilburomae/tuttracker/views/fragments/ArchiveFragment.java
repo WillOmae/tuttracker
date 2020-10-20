@@ -17,9 +17,9 @@ import java.util.List;
 
 import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.models.Assignment;
-import dev.wilburomae.tuttracker.views.adapters.OutboxAdapter;
+import dev.wilburomae.tuttracker.views.adapters.ArchiveAdapter;
 
-public class OutboxFragment extends Fragment {
+public class ArchiveFragment extends Fragment {
     private Context mContext;
 
     @Override
@@ -35,13 +35,13 @@ public class OutboxFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_inbox, container, false);
         RecyclerView recyclerView = root.findViewById(R.id.fragment_inbox_recycler);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext);
-        final OutboxAdapter adapter = new OutboxAdapter(this, new ArrayList<Assignment>());
+        final ArchiveAdapter adapter = new ArchiveAdapter(this, new ArrayList<Assignment>());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         List<Assignment> assignments = new ArrayList<>();
-        for (int i = 0; i < 6; i++) assignments.add(new Assignment());
+        for (int i = 0; i < 2; i++) assignments.add(new Assignment());
         adapter.setAssignments(assignments);
 
         return root;

@@ -2,6 +2,8 @@ package dev.wilburomae.tuttracker.models;
 
 public class Assignment {
     private String mId;
+    private String mTitle;
+    private String mDescription;
     private String mTutorId;
     private String mStudentId;
     private String mFile1Id;
@@ -15,8 +17,10 @@ public class Assignment {
     public Assignment() {
     }
 
-    public Assignment(String id, String tutorId, String studentId, String file1Id, String file2Id, double grade, long dateAssigned, long dateDue, long dateSubmitted, long dateGraded) {
+    public Assignment(String id, String title, String description, String tutorId, String studentId, String file1Id, String file2Id, double grade, long dateAssigned, long dateDue, long dateSubmitted, long dateGraded) {
         mId = id;
+        mTitle = title;
+        mDescription = description;
         mTutorId = tutorId;
         mStudentId = studentId;
         mFile1Id = file1Id;
@@ -34,6 +38,22 @@ public class Assignment {
 
     public void setId(String id) {
         mId = id;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
     public String getTutorId() {

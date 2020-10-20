@@ -8,4 +8,5 @@
     <string name="home_tab_inbox">Inbox</string>
     <string name="home_tab_outbox">Outbox</string>
     <string name="home_tab_stats">Stats</string>
+    <string name="archive">Archive</string>
 </resources>

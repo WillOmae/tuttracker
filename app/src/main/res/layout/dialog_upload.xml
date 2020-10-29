@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/upload_file"
+            android:textSize="25sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/primary" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/dialog_upload_fetch_content"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/select_file" />
+
+            <ImageView
+                android:id="@+id/dialog_upload_fetch_content_set"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/file_selected"
+                android:src="@drawable/ic_error"
+                app:tint="@color/primary" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/tutor_email"
+            app:boxBackgroundColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialog_upload_tutor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/student_email"
+            app:boxBackgroundColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialog_upload_student"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/title"
+            app:boxBackgroundColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialog_upload_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/description"
+            app:boxBackgroundColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dialog_upload_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:gravity="top" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/maximum_grade"
+            app:boxBackgroundColor="@android:color/white">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/dialog_upload_grade_max"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/actual_grade"
+            app:boxBackgroundColor="@android:color/white">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/dialog_upload_grade_actual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_assigned"
+            app:boxBackgroundColor="@android:color/white">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/dialog_upload_date_assigned"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_due"
+            app:boxBackgroundColor="@android:color/white">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/dialog_upload_date_due"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_submitted"
+            app:boxBackgroundColor="@android:color/white">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/dialog_upload_date_submitted"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/date_graded"
+            app:boxBackgroundColor="@android:color/white">
+
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/dialog_upload_date_graded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:orientation="horizontal"
+            android:layout_gravity="end">
+
+            <Button
+                android:id="@+id/dialog_upload_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/cancel"
+                android:textColor="@color/primary"
+                style="@style/Widget.AppCompat.Button.Borderless" />
+
+            <Button
+                android:id="@+id/dialog_upload_accept"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:text="@string/proceed"
+                android:textColor="@color/primary"
+                style="@style/Widget.AppCompat.Button.Borderless" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

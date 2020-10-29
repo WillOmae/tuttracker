@@ -1,31 +1,45 @@
 package dev.wilburomae.tuttracker.models;
 
-public class Assignment {
+import java.io.Serializable;
+
+public class Assignment implements Serializable {
     private String mId;
     private String mTitle;
     private String mDescription;
     private String mTutorId;
+    private String mTutorName;
+    private String mTutorEmail;
     private String mStudentId;
-    private String mFile1Id;
-    private String mFile2Id;
-    private double mGrade;
-    private long mDateAssigned;
-    private long mDateDue;
-    private long mDateSubmitted;
-    private long mDateGraded;
+    private String mStudentName;
+    private String mStudentEmail;
+    private String mFileAssignedId;
+    private String mFileSubmittedId;
+    private String mFileGradedId;
+    private double mGradeScored;
+    private double mGradeMax;
+    private String mDateAssigned;
+    private String mDateDue;
+    private String mDateSubmitted;
+    private String mDateGraded;
 
     public Assignment() {
     }
 
-    public Assignment(String id, String title, String description, String tutorId, String studentId, String file1Id, String file2Id, double grade, long dateAssigned, long dateDue, long dateSubmitted, long dateGraded) {
+    public Assignment(String id, String title, String description, String tutorId, String tutorName, String tutorEmail, String studentId, String studentName, String studentEmail, String fileAssignedId, String fileSubmittedId, String fileGradedId, double gradeScored, double gradeMax, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded) {
         mId = id;
         mTitle = title;
         mDescription = description;
         mTutorId = tutorId;
+        mTutorName = tutorName;
+        mTutorEmail = tutorEmail;
         mStudentId = studentId;
-        mFile1Id = file1Id;
-        mFile2Id = file2Id;
-        mGrade = grade;
+        mStudentName = studentName;
+        mStudentEmail = studentEmail;
+        mFileAssignedId = fileAssignedId;
+        mFileSubmittedId = fileSubmittedId;
+        mFileGradedId = fileGradedId;
+        mGradeScored = gradeScored;
+        mGradeMax = gradeMax;
         mDateAssigned = dateAssigned;
         mDateDue = dateDue;
         mDateSubmitted = dateSubmitted;
@@ -64,6 +78,22 @@ public class Assignment {
         mTutorId = tutorId;
     }
 
+    public String getTutorName() {
+        return mTutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        mTutorName = tutorName;
+    }
+
+    public String getTutorEmail() {
+        return mTutorEmail;
+    }
+
+    public void setTutorEmail(String tutorEmail) {
+        mTutorEmail = tutorEmail;
+    }
+
     public String getStudentId() {
         return mStudentId;
     }
@@ -72,59 +102,91 @@ public class Assignment {
         mStudentId = studentId;
     }
 
-    public String getFile1Id() {
-        return mFile1Id;
+    public String getStudentName() {
+        return mStudentName;
     }
 
-    public void setFile1Id(String file1Id) {
-        mFile1Id = file1Id;
+    public void setStudentName(String studentName) {
+        mStudentName = studentName;
     }
 
-    public String getFile2Id() {
-        return mFile2Id;
+    public String getStudentEmail() {
+        return mStudentEmail;
     }
 
-    public void setFile2Id(String file2Id) {
-        mFile2Id = file2Id;
+    public void setStudentEmail(String studentEmail) {
+        mStudentEmail = studentEmail;
     }
 
-    public double getGrade() {
-        return mGrade;
+    public String getFileAssignedId() {
+        return mFileAssignedId;
     }
 
-    public void setGrade(double grade) {
-        mGrade = grade;
+    public void setFileAssignedId(String fileAssignedId) {
+        mFileAssignedId = fileAssignedId;
     }
 
-    public long getDateAssigned() {
+    public String getFileSubmittedId() {
+        return mFileSubmittedId;
+    }
+
+    public void setFileSubmittedId(String fileSubmittedId) {
+        mFileSubmittedId = fileSubmittedId;
+    }
+
+    public String getFileGradedId() {
+        return mFileGradedId;
+    }
+
+    public void setFileGradedId(String fileGradedId) {
+        mFileGradedId = fileGradedId;
+    }
+
+    public double getGradeScored() {
+        return mGradeScored;
+    }
+
+    public void setGradeScored(double gradeScored) {
+        mGradeScored = gradeScored;
+    }
+
+    public double getGradeMax() {
+        return mGradeMax;
+    }
+
+    public void setGradeMax(double gradeMax) {
+        mGradeMax = gradeMax;
+    }
+
+    public String getDateAssigned() {
         return mDateAssigned;
     }
 
-    public void setDateAssigned(long dateAssigned) {
+    public void setDateAssigned(String dateAssigned) {
         mDateAssigned = dateAssigned;
     }
 
-    public long getDateDue() {
+    public String getDateDue() {
         return mDateDue;
     }
 
-    public void setDateDue(long dateDue) {
+    public void setDateDue(String dateDue) {
         mDateDue = dateDue;
     }
 
-    public long getDateSubmitted() {
+    public String getDateSubmitted() {
         return mDateSubmitted;
     }
 
-    public void setDateSubmitted(long dateSubmitted) {
+    public void setDateSubmitted(String dateSubmitted) {
         mDateSubmitted = dateSubmitted;
     }
 
-    public long getDateGraded() {
+    public String getDateGraded() {
         return mDateGraded;
     }
 
-    public void setDateGraded(long dateGraded) {
+    public void setDateGraded(String dateGraded) {
         mDateGraded = dateGraded;
     }
 }

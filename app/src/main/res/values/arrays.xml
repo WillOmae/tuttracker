@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="mime_types">
+        <item>application/pdf</item>
+        <item>application/vnd.adobe.pdfxml</item>
+        <item>application/vnd.adobe.pdx</item>
+        <item>application/vnd.fdf</item>
+        <item>application/epub+zip</item>
+        <item>application/vnd.amazon.ebook</item>
+        <item>text/plain</item>
+        <item>application/rtf</item>
+        <item>application/vnd.openxmlformats-officedocument.wordprocessingml.document</item>
+        <item>application/vnd.oasis.opendocument.text</item>
+        <item>application/msword</item>
+        <item>application/vnd.ms-word.document.macroEnabled.12</item>
+        <item>application/vnd.ms-word.document.12</item>
+        <item>application/vnd.ms-word.template.macroEnabled.12</item>
+        <item>application/vnd.ms-word.template.12</item>
+        <item>application/vnd.openxmlformats-officedocument.presentationml.presentation</item>
+        <item>application/vnd.ms-powerpoint.template.macroEnabled.12</item>
+        <item>application/vnd.ms-powerpoint.addin.macroEnabled.12</item>
+        <item>application/vnd.ms-powerpoint.slideshow.macroEnabled.12</item>
+        <item>application/vnd.ms-powerpoint</item>
+        <item>application/vnd.ms-powerpoint.presentation.macroEnabled.12</item>
+        <item>application/vnd.ms-powerpoint.12</item>
+        <item>application/vnd.oasis.opendocument.presentation</item>
+        <item>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</item>
+        <item>application/vnd.ms-excel.addin.macroEnabled.12</item>
+        <item>application/vnd.ms-excel</item>
+        <item>application/vnd.ms-excel.sheet.binary.macroEnabled.12</item>
+        <item>application/vnd.ms-excel.sheet.macroEnabled.12</item>
+        <item>application/vnd.ms-excel.12</item>
+        <item>application/vnd.ms-excel.template.macroEnabled.12</item>
+        <item>application/vnd.oasis.opendocument.spreadsheet</item>
+        <item>application/octet-stream</item>
+    </string-array>
+</resources>

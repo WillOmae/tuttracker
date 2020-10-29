@@ -156,21 +156,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_menu_log_out:
-                signOutUser();
-                break;
-            case R.id.nav_menu_sign_in:
-                signInUser();
-                break;
-            case R.id.nav_menu_share:
-                String content = "TuTTracker makes distance learning easier. Download it on the PlayStore today.";
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing TuTTracker app link");
-                intent.putExtra(Intent.EXTRA_TEXT, content);
-                startActivity(Intent.createChooser(intent, "Share using"));
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.nav_menu_log_out) {
+            signOutUser();
+        } else if (itemId == R.id.nav_menu_sign_in) {
+            signInUser();
+        } else if (itemId == R.id.nav_menu_share) {
+            String content = "TuTTracker makes distance learning easier. Download it on the PlayStore today.";
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_SUBJECT, "Sharing TuTTracker app link");
+            intent.putExtra(Intent.EXTRA_TEXT, content);
+            startActivity(Intent.createChooser(intent, "Share using"));
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

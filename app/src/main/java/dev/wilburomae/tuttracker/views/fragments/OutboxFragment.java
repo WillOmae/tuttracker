@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,14 +14,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import dev.wilburomae.tuttracker.R;
+import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
 import dev.wilburomae.tuttracker.views.adapters.OutboxAdapter;
@@ -77,6 +82,21 @@ public class OutboxFragment extends Fragment implements IUploadListener {
 
     @Override
     public void upload(Assignment assignment, Uri fileUri) {
-
+        Toast.makeText(mContext, "Upload started...", Toast.LENGTH_SHORT).show();
+        UploadTask task = AssignmentManager.upload(assignment, fileUri, AssignmentStage.TO_ASSIGN);
+        if (task != null) {
+            task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(mContext, "Upload complete!", Toast.LENGTH_SHORT).show();
+                }
+            });
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(mContext, "Upload failed!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }

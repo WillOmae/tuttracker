@@ -49,6 +49,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
     private Assignment mAssignment;
     private AssignmentStage mStage;
     private EditingDate mEditingDate;
+    private static final String N_A = "N/A";
 
     private enum EditingDate {
         ASSIGN, DUE, SUBMIT, GRADE
@@ -107,10 +108,29 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String tutorEmail = mTutorEmail.getText().toString();
+                String studentEmail = mStudentEmail.getText().toString();
                 String title = mTitle.getText().toString();
                 String description = mDescription.getText().toString();
                 String gradeMax = mGradeMax.getText().toString();
-                if (verifyInputs(title, description, gradeMax)) {
+                String gradeActual = mGradeActual.getText().toString();
+                String dateAssigned = mDateAssigned.getText().toString();
+                String dateDue = mDateDue.getText().toString();
+                String dateSubmitted = mDateSubmitted.getText().toString();
+                String dateGraded = mDateGraded.getText().toString();
+
+                if (verifyInputs(tutorEmail, studentEmail, title, description, gradeMax, gradeActual, dateAssigned, dateDue, dateSubmitted, dateGraded)) {
+                    if(!tutorEmail.equals(N_A)) mAssignment.setTutorEmail(tutorEmail);
+                    if(!studentEmail.equals(N_A)) mAssignment.setStudentEmail(studentEmail);
+                    if(!title.equals(N_A)) mAssignment.setTitle(title);
+                    if(!description.equals(N_A)) mAssignment.setDescription(description);
+                    if(!gradeMax.equals(N_A)) mAssignment.setGradeMax(Double.parseDouble(gradeMax));
+                    if(!gradeActual.equals(N_A)) mAssignment.setGradeScored(Double.parseDouble(gradeActual));
+                    if(!dateAssigned.equals(N_A)) mAssignment.setDateAssigned(dateAssigned);
+                    if(!dateDue.equals(N_A)) mAssignment.setDateDue(dateDue);
+                    if(!dateSubmitted.equals(N_A)) mAssignment.setDateSubmitted(dateSubmitted);
+                    if(!dateGraded.equals(N_A)) mAssignment.setDateGraded(dateGraded);
+
                     mUploadListener.upload(mAssignment, mContentUri);
                 }
             }
@@ -169,13 +189,13 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 mTutorEmail.setText(mAssignment.getTutorEmail());
                 mTutorEmail.setEnabled(false);
                 mTutorEmail.setVisibility(View.GONE);
-                mGradeActual.setText("N/A");
+                mGradeActual.setText(N_A);
                 mGradeActual.setEnabled(false);
                 mGradeActual.setVisibility(View.GONE);
-                mDateSubmitted.setText("N/A");
+                mDateSubmitted.setText(N_A);
                 mDateSubmitted.setEnabled(false);
                 mDateSubmitted.setVisibility(View.GONE);
-                mDateGraded.setText("N/A");
+                mDateGraded.setText(N_A);
                 mDateGraded.setEnabled(false);
                 mDateGraded.setVisibility(View.GONE);
                 break;
@@ -189,7 +209,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 mTitle.setEnabled(false);
                 mDescription.setText(mAssignment.getDescription());
                 mDescription.setEnabled(false);
-                mGradeActual.setText("N/A");
+                mGradeActual.setText(N_A);
                 mGradeActual.setEnabled(false);
                 mGradeActual.setVisibility(View.GONE);
                 mGradeMax.setText(String.valueOf(mAssignment.getGradeMax()));
@@ -198,10 +218,10 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 mDateAssigned.setEnabled(false);
                 mDateDue.setText(mAssignment.getDateDue());
                 mDateDue.setEnabled(false);
-                mDateSubmitted.setText("N/A");
+                mDateSubmitted.setText(N_A);
                 mDateSubmitted.setEnabled(false);
                 mDateSubmitted.setVisibility(View.GONE);
-                mDateGraded.setText("N/A");
+                mDateGraded.setText(N_A);
                 mDateGraded.setEnabled(false);
                 mDateGraded.setVisibility(View.GONE);
                 break;
@@ -227,9 +247,19 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         }
     }
 
-    private boolean verifyInputs(String title, String description, String gradeMax) {
+    private boolean verifyInputs(String tutorEmail, String studentEmail, String title, String description, String gradeMax, String gradeActual, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded) {
         if (mContentUri == null) {
             Toast.makeText(getContext(), "Select a file", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (tutorEmail.isEmpty()) {
+            mTutorEmail.requestFocus();
+            Toast.makeText(getContext(), "Set the tutor's email", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (studentEmail.isEmpty()) {
+            mStudentEmail.requestFocus();
+            Toast.makeText(getContext(), "Set the student's email", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (title.isEmpty()) {
@@ -245,6 +275,31 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         if (gradeMax.isEmpty()) {
             mGradeMax.requestFocus();
             Toast.makeText(getContext(), "Assign a maximum grade to this assignment", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (gradeActual.isEmpty()) {
+            mGradeActual.requestFocus();
+            Toast.makeText(getContext(), "Set the actual grade", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (dateAssigned.isEmpty()) {
+            mDateAssigned.requestFocus();
+            Toast.makeText(getContext(), "Set the assigned date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (dateDue.isEmpty()) {
+            mDateDue.requestFocus();
+            Toast.makeText(getContext(), "Set the due date", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (dateSubmitted.isEmpty()) {
+            mDateSubmitted.requestFocus();
+            Toast.makeText(getContext(), "Set the date of submission", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (dateGraded.isEmpty()) {
+            mDateGraded.requestFocus();
+            Toast.makeText(getContext(), "Set the date of grading", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

@@ -2,6 +2,7 @@ package dev.wilburomae.tuttracker.managers;
 
 import android.net.Uri;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -21,7 +22,7 @@ public class AssignmentManager {
 
     public static UploadTask upload(Assignment assignment, Uri uri, AssignmentStage stage) {
         DB_ASSIGNMENTS.child(assignment.getId()).setValue(assignment);
-        
+
         switch (stage) {
             case TO_ASSIGN:
                 return FOLDER_ASSIGNED.child(assignment.getFileAssignedId()).putFile(uri);
@@ -31,5 +32,10 @@ public class AssignmentManager {
                 return FOLDER_GRADED.child(assignment.getFileGradedId()).putFile(uri);
         }
         return null;
+    }
+
+    public static void fetch(String uid, ChildEventListener listener) {
+        DB_ASSIGNMENTS.orderByChild("tutorId").equalTo(uid).addChildEventListener(listener);
+        DB_ASSIGNMENTS.orderByChild("studentId").equalTo(uid).addChildEventListener(listener);
     }
 }

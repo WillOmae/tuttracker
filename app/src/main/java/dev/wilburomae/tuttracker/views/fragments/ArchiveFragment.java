@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,16 +18,21 @@ import java.util.List;
 
 import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.models.Assignment;
+import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
+import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.ArchiveAdapter;
 
 public class ArchiveFragment extends Fragment {
     private Context mContext;
+    private AssignmentsViewModel mAssignmentsViewModel;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
         mContext = context;
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mAssignmentsViewModel = mainActivity.getAssignmentsViewModel();
     }
 
     @Nullable
@@ -40,9 +46,13 @@ public class ArchiveFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        List<Assignment> assignments = new ArrayList<>();
-        for (int i = 0; i < 2; i++) assignments.add(new Assignment());
-        adapter.setAssignments(assignments);
+        mAssignmentsViewModel.getArchivesData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
+            @Override
+            public void onChanged(List<Assignment> assignments) {
+                adapter.setAssignments(assignments);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         return root;
     }

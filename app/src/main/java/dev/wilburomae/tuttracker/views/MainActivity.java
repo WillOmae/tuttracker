@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.firebase.ui.auth.AuthUI;
@@ -26,19 +27,14 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
-import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.managers.UserManager;
-import dev.wilburomae.tuttracker.models.Assignment;
+import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.adapters.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private ArrayList<Assignment> mAssignments;
+    private AssignmentsViewModel mAssignmentsViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mContext = this;
+
+        mAssignmentsViewModel = new ViewModelProvider(this).get(AssignmentsViewModel.class);
 
         ViewPager viewPager = findViewById(R.id.home_viewPager);
         TabLayout tabLayout = findViewById(R.id.home_tabs);
@@ -90,6 +88,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         modifyNavDrawerUserDetails();
     }
 
+    public AssignmentsViewModel getAssignmentsViewModel() {
+        return mAssignmentsViewModel;
+    }
+
     private void signInUser() {
         List<AuthUI.IdpConfig> providers = Collections.singletonList(new AuthUI.IdpConfig.EmailBuilder().build());
         startActivityForResult(AuthUI.getInstance().
@@ -119,41 +121,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mUser == null) {
             navLogout.setVisible(false);
             navSignin.setVisible(true);
-            mAssignments = new ArrayList<>();
         } else {
             navLogout.setVisible(true);
             navSignin.setVisible(false);
-            if (mAssignments == null || mAssignments.isEmpty()) {
-                mAssignments = new ArrayList<>();
-                ChildEventListener listener = new ChildEventListener() {
-                    @Override
-                    public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                };
-                
-                AssignmentManager.fetch(mUser.getUid(), listener);
-            }
         }
     }
 

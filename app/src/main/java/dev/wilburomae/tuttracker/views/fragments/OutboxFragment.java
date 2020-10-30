@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -28,6 +29,8 @@ import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
+import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
+import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.OutboxAdapter;
 import dev.wilburomae.tuttracker.views.dialogs.UploadDialog;
 import dev.wilburomae.tuttracker.views.listeners.IUploadListener;
@@ -35,6 +38,7 @@ import dev.wilburomae.tuttracker.views.listeners.IUploadListener;
 public class OutboxFragment extends Fragment implements IUploadListener {
     private Context mContext;
     private FirebaseUser mUser;
+    private AssignmentsViewModel mAssignmentsViewModel;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -42,6 +46,8 @@ public class OutboxFragment extends Fragment implements IUploadListener {
 
         mContext = context;
         mUser = FirebaseAuth.getInstance().getCurrentUser();
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mAssignmentsViewModel = mainActivity.getAssignmentsViewModel();
     }
 
     @Nullable
@@ -73,9 +79,13 @@ public class OutboxFragment extends Fragment implements IUploadListener {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        List<Assignment> assignments = new ArrayList<>();
-        for (int i = 0; i < 6; i++) assignments.add(new Assignment());
-        adapter.setAssignments(assignments);
+        mAssignmentsViewModel.getOutboxData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
+            @Override
+            public void onChanged(List<Assignment> assignments) {
+                adapter.setAssignments(assignments);
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         return root;
     }

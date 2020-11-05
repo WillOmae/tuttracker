@@ -1,7 +1,5 @@
 package dev.wilburomae.tuttracker.views.adapters;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -20,7 +18,8 @@ public class ArchiveAdapter extends AssignmentsAdapter {
         Assignment assignment = getAssignments().get(position);
         holder.mTitle.setText(assignment.getTitle());
         holder.mDescription.setText(assignment.getDescription());
-        holder.mGradeHolder.setVisibility(View.VISIBLE);
+        holder.mGradeMax.setText(String.valueOf(assignment.getGradeMax()));
+        holder.mGradeValue.setText(String.valueOf(assignment.getGradeScored()));
         holder.mDateLabel.setText(R.string.dialog_upload_date_graded);
         holder.mDateValue.setText(assignment.getDateGraded());
     }

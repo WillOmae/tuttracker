@@ -28,7 +28,8 @@ public class InboxAdapter extends AssignmentsAdapter {
         final Assignment assignment = getAssignments().get(position);
         holder.mTitle.setText(assignment.getTitle());
         holder.mDescription.setText(assignment.getDescription());
-        holder.mGradeHolder.setVisibility(View.GONE);
+        holder.mGradeMax.setText(String.valueOf(assignment.getGradeMax()));
+        holder.mGradeValue.setText("N/A");
         if (Constants.isDateSet(assignment.getDateSubmitted())) {
             holder.mDateLabel.setText(R.string.dialog_upload_date_submitted);
             holder.mDateValue.setText(assignment.getDateSubmitted());

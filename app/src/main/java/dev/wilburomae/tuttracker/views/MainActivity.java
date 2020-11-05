@@ -50,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
         mContext = this;
-
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
         mAssignmentsViewModel = new ViewModelProvider(this).get(AssignmentsViewModel.class);
 
         ViewPager viewPager = findViewById(R.id.home_viewPager);
@@ -80,10 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.setDrawerIndicatorEnabled(true);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
-
-        if (mUser == null) {
-            signInUser();
-        }
 
         modifyNavDrawerUserDetails();
     }
@@ -121,9 +116,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (mUser == null) {
             navLogout.setVisible(false);
             navSignin.setVisible(true);
+            mAssignmentsViewModel.reset();
         } else {
             navLogout.setVisible(true);
             navSignin.setVisible(false);
+            mAssignmentsViewModel.setup(mUser);
         }
     }
 

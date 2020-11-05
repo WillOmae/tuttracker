@@ -39,7 +39,6 @@ import dev.wilburomae.tuttracker.views.listeners.IUploadListener;
 
 public class OutboxFragment extends Fragment implements IUploadListener {
     private Context mContext;
-    private FirebaseUser mUser;
     private AssignmentsViewModel mAssignmentsViewModel;
 
     @Override
@@ -47,7 +46,6 @@ public class OutboxFragment extends Fragment implements IUploadListener {
         super.onAttach(context);
 
         mContext = context;
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
         MainActivity mainActivity = (MainActivity) getActivity();
         mAssignmentsViewModel = mainActivity.getAssignmentsViewModel();
     }
@@ -60,18 +58,23 @@ public class OutboxFragment extends Fragment implements IUploadListener {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Assignment assignment = new Assignment();
-                assignment.setTutorEmail(mUser.getEmail());
-                assignment.setTutorId(mUser.getUid());
-                assignment.setTutorName(mUser.getDisplayName());
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (user == null) {
+                    Toast.makeText(mContext, "Not logged in.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Assignment assignment = new Assignment();
+                    assignment.setTutorEmail(user.getEmail());
+                    assignment.setTutorId(user.getUid());
+                    assignment.setTutorName(user.getDisplayName());
 
-                Bundle args = new Bundle();
-                args.putSerializable("assignment", assignment);
-                args.putSerializable("stage", AssignmentStage.TO_ASSIGN);
+                    Bundle args = new Bundle();
+                    args.putSerializable("assignment", assignment);
+                    args.putSerializable("stage", AssignmentStage.TO_ASSIGN);
 
-                UploadDialog dialogFragment = new UploadDialog();
-                dialogFragment.setArguments(args);
-                dialogFragment.show(getChildFragmentManager(), UploadDialog.class.getName());
+                    UploadDialog dialogFragment = new UploadDialog();
+                    dialogFragment.setArguments(args);
+                    dialogFragment.show(getChildFragmentManager(), UploadDialog.class.getName());
+                }
             }
         });
         RecyclerView recyclerView = root.findViewById(R.id.fragment_outbox_recycler);
@@ -81,13 +84,15 @@ public class OutboxFragment extends Fragment implements IUploadListener {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        mAssignmentsViewModel.getOutboxData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
-            @Override
-            public void onChanged(List<Assignment> assignments) {
-                adapter.setAssignments(assignments);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if (mAssignmentsViewModel != null) {
+            mAssignmentsViewModel.getOutboxData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
+                @Override
+                public void onChanged(List<Assignment> assignments) {
+                    adapter.setAssignments(assignments);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
 
         return root;
     }
@@ -97,7 +102,7 @@ public class OutboxFragment extends Fragment implements IUploadListener {
         Toast.makeText(mContext, "Upload started...", Toast.LENGTH_SHORT).show();
 
         assignment.setId(UUID.randomUUID().toString());
-        assignment.setTutorId(mUser.getUid());
+        assignment.setTutorId(FirebaseAuth.getInstance().getCurrentUser().getUid());
         assignment.setFileAssignedId(UUID.randomUUID().toString());
 
         UploadTask task = AssignmentManager.upload(assignment, fileUri, AssignmentStage.TO_ASSIGN);

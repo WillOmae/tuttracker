@@ -46,13 +46,15 @@ public class ArchiveFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        mAssignmentsViewModel.getArchivesData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
-            @Override
-            public void onChanged(List<Assignment> assignments) {
-                adapter.setAssignments(assignments);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        if(mAssignmentsViewModel!=null){
+            mAssignmentsViewModel.getArchivesData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
+                @Override
+                public void onChanged(List<Assignment> assignments) {
+                    adapter.setAssignments(assignments);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        }
 
         return root;
     }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <cache-path
+        name="assigned"
+        path="assigned/" />
+    <cache-path
+        name="submitted"
+        path="submitted/" />
+    <cache-path
+        name="graded"
+        path="graded/" />
+</paths>

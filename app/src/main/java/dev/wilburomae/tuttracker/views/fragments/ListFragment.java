@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -15,7 +16,9 @@ import com.google.firebase.storage.FileDownloadTask;
 
 import java.io.File;
 
+import dev.wilburomae.tuttracker.BuildConfig;
 import dev.wilburomae.tuttracker.Constants;
+import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
@@ -32,29 +35,18 @@ public class ListFragment extends Fragment implements IPickerDialogSelection {
             stage = AssignmentStage.TO_ASSIGN;
         }
 
-        Object[] array = AssignmentManager.open(assignment, stage);
-
+        final Object[] array = AssignmentManager.open(getContext(), assignment, stage);
         if (array == null || array[1] == null) {
             Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getContext(), "Fetching...", Toast.LENGTH_SHORT).show();
 
-            final File file = (File) array[0];
             FileDownloadTask task = (FileDownloadTask) array[1];
-
             task.addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(getContext(), "Opening...", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.fromFile(file));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-
-                    if (intent.resolveActivity(getActivity().getPackageManager()) == null) {
-                        Toast.makeText(getContext(), "The file could not be opened", Toast.LENGTH_SHORT).show();
-                    } else {
-                        startActivity(intent);
-                    }
+                    openFile((File) array[0]);
                 }
             });
             task.addOnFailureListener(new OnFailureListener() {
@@ -63,6 +55,29 @@ public class ListFragment extends Fragment implements IPickerDialogSelection {
                     Toast.makeText(getContext(), "An error occurred", Toast.LENGTH_SHORT).show();
                 }
             });
+        }
+    }
+
+    private void openFile(File file) {
+        String[] mimeTypes = getContext().getResources().getStringArray(R.array.mime_types);
+
+        String auth = BuildConfig.APPLICATION_ID + ".fileprovider";
+        Uri uri = FileProvider.getUriForFile(getContext(), auth, file);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+
+        boolean openable = false;
+        for (String mimeType : mimeTypes) {
+            intent.setDataAndType(uri, mimeType);
+            if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                openable = true;
+                startActivity(intent);
+                break;
+            }
+        }
+
+        if (!openable) {
+            Toast.makeText(getContext(), "The file could not be opened", Toast.LENGTH_SHORT).show();
         }
     }
 

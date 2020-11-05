@@ -1,6 +1,5 @@
 package dev.wilburomae.tuttracker;
 
-import android.Manifest;
 import android.os.Bundle;
 
 import androidx.fragment.app.FragmentManager;
@@ -18,7 +17,6 @@ import dev.wilburomae.tuttracker.views.dialogs.UploadDialog;
 public class Constants {
     public static final short RC_FB_SIGNIN = 1234;
     public static final short RC_CONTENT_PICKER = 2345;
-    public static final short RC_PERMISSIONS = 3456;
 
     public static final String OPT_OPEN = "Open";
     public static final String OPT_GRADE = "Grade";
@@ -28,13 +26,6 @@ public class Constants {
     public static final String BUNDLE_ASSIGNMENT = "assignment";
     public static final String BUNDLE_STAGE = "stage";
     public static final String BUNDLE_OPTIONS = "options";
-
-    public static String[] REQUIRED_PERMISSIONS = new String[]{
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.INTERNET,
-            Manifest.permission.ACCESS_NETWORK_STATE
-    };
 
     public static boolean isDateSet(String date) {
         return date != null && !date.isEmpty();

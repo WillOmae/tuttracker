@@ -19,22 +19,55 @@ import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 
 public class AssignmentsViewModel extends ViewModel {
-    private final MutableLiveData<List<Assignment>> mAssignmentsLiveData = new MutableLiveData<>();
+    private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
+    private final MutableLiveData<List<Assignment>> mOutboxLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Assignment>> mInboxLiveData = new MutableLiveData<>();
+    private final MutableLiveData<List<Assignment>> mArchivesLiveData = new MutableLiveData<>();
+
+    private boolean isDateSet(String date) {
+        return date != null && !date.isEmpty();
+    }
+
+    private void addToLiveData(MutableLiveData<List<Assignment>> liveData, Assignment assignment) {
+        List<Assignment> assignments = liveData.getValue();
+        if (assignments == null) {
+            assignments = new ArrayList<>();
+        }
+        assignments.add(assignment);
+        liveData.setValue(assignments);
+    }
+
+    private void purgeFromAllLiveData(Assignment assignment) {
+        removeFromLiveData(mOutboxLiveData, assignment);
+        removeFromLiveData(mInboxLiveData, assignment);
+        removeFromLiveData(mArchivesLiveData, assignment);
+    }
+
+    private void removeFromLiveData(MutableLiveData<List<Assignment>> liveData, Assignment assignment) {
+        List<Assignment> assignments = liveData.getValue();
+        if (assignments != null) {
+            assignments.remove(assignment);
+            liveData.setValue(assignments);
+        }
+    }
 
     public AssignmentsViewModel() {
-        mAssignmentsLiveData.setValue(new ArrayList<Assignment>());
+        mOutboxLiveData.setValue(new ArrayList<Assignment>());
+        mInboxLiveData.setValue(new ArrayList<Assignment>());
+        mArchivesLiveData.setValue(new ArrayList<Assignment>());
 
         ChildEventListener listener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Assignment assignment = snapshot.getValue(Assignment.class);
                 if (assignment != null) {
-                    List<Assignment> assignments = mAssignmentsLiveData.getValue();
-                    if (assignments == null) {
-                        assignments = new ArrayList<>();
+                    if (isDateSet(assignment.getDateGraded())) {
+                        addToLiveData(mArchivesLiveData, assignment);
+                    } else if (isDateSet(assignment.getDateSubmitted())) {
+                        addToLiveData(assignment.getTutorId().equals(mUser.getUid()) ? mInboxLiveData : mOutboxLiveData, assignment);
+                    } else if (isDateSet(assignment.getDateAssigned())) {
+                        addToLiveData(assignment.getTutorId().equals(mUser.getUid()) ? mOutboxLiveData : mInboxLiveData, assignment);
                     }
-                    assignments.add(assignment);
-                    mAssignmentsLiveData.setValue(assignments);
                 }
             }
 
@@ -42,19 +75,15 @@ public class AssignmentsViewModel extends ViewModel {
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Assignment assignment = snapshot.getValue(Assignment.class);
                 if (assignment != null) {
-                    List<Assignment> assignments = mAssignmentsLiveData.getValue();
-                    if (assignments == null) {
-                        assignments = new ArrayList<>();
-                    } else {
-                        for (int i = 0, booksSize = assignments.size(); i < booksSize; i++) {
-                            Assignment b = assignments.get(i);
-                            if (b.getId().equals(assignment.getId())) {
-                                assignments.set(i, assignment);
-                                break;
-                            }
-                        }
+                    purgeFromAllLiveData(assignment);
+
+                    if (isDateSet(assignment.getDateGraded())) {
+                        addToLiveData(mArchivesLiveData, assignment);
+                    } else if (isDateSet(assignment.getDateSubmitted())) {
+                        addToLiveData(assignment.getTutorId().equals(mUser.getUid()) ? mInboxLiveData : mOutboxLiveData, assignment);
+                    } else if (isDateSet(assignment.getDateAssigned())) {
+                        addToLiveData(assignment.getTutorId().equals(mUser.getUid()) ? mOutboxLiveData : mInboxLiveData, assignment);
                     }
-                    mAssignmentsLiveData.setValue(assignments);
                 }
             }
 
@@ -62,11 +91,7 @@ public class AssignmentsViewModel extends ViewModel {
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
                 Assignment assignment = snapshot.getValue(Assignment.class);
                 if (assignment != null) {
-                    List<Assignment> assignments = mAssignmentsLiveData.getValue();
-                    if (assignments != null) {
-                        assignments.remove(assignment);
-                        mAssignmentsLiveData.setValue(assignments);
-                    }
+                    purgeFromAllLiveData(assignment);
                 }
             }
 
@@ -81,21 +106,20 @@ public class AssignmentsViewModel extends ViewModel {
             }
         };
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            AssignmentManager.fetch(user.getUid(), listener);
+        if (mUser != null) {
+            AssignmentManager.fetch(mUser.getUid(), listener);
         }
     }
 
     public LiveData<List<Assignment>> getOutboxData() {
-        return mAssignmentsLiveData;
+        return mOutboxLiveData;
     }
 
     public LiveData<List<Assignment>> getInboxData() {
-        return mAssignmentsLiveData;
+        return mInboxLiveData;
     }
 
     public LiveData<List<Assignment>> getArchivesData() {
-        return mAssignmentsLiveData;
+        return mArchivesLiveData;
     }
 }

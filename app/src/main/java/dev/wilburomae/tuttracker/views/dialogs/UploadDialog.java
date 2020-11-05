@@ -301,7 +301,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
     private void upload() {
         Toast.makeText(getContext(), "Upload started...", Toast.LENGTH_SHORT).show();
 
-        UploadTask task = AssignmentManager.upload(mAssignment, mContentUri, AssignmentStage.TO_ASSIGN);
+        UploadTask task = AssignmentManager.upload(mAssignment, mContentUri, mStage);
         if (task != null) {
             task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

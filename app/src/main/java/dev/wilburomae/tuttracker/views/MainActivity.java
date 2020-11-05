@@ -1,7 +1,10 @@
 package dev.wilburomae.tuttracker.views;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -12,8 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -39,6 +45,7 @@ import dev.wilburomae.tuttracker.views.adapters.SectionsPagerAdapter;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private FirebaseUser mUser;
     private Context mContext;
+    private MainActivity mMainActivity;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
@@ -50,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         mContext = this;
+        mMainActivity = this;
         mUser = FirebaseAuth.getInstance().getCurrentUser();
         mAssignmentsViewModel = new ViewModelProvider(this).get(AssignmentsViewModel.class);
 
@@ -80,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerToggle.syncState();
 
         modifyNavDrawerUserDetails();
+
+        checkPermissions();
     }
 
     public AssignmentsViewModel getAssignmentsViewModel() {
@@ -125,6 +135,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void syncNavDrawer() {
         mDrawerToggle.syncState();
+    }
+
+    private void checkPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                + ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                + ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET)
+                + ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.INTERNET)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_NETWORK_STATE)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setMessage("This app needs to upload and download files.\n" +
+                        "Please grant the required permissions.");
+                builder.setTitle("Permissions request");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ActivityCompat.requestPermissions(mMainActivity, Constants.REQUIRED_PERMISSIONS, Constants.RC_PERMISSIONS);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                ActivityCompat.requestPermissions(mMainActivity, Constants.REQUIRED_PERMISSIONS, Constants.RC_PERMISSIONS);
+            }
+        }
     }
 
     @Override
@@ -189,5 +228,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return mDrawerToggle.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == Constants.RC_PERMISSIONS &&
+                ((grantResults.length < 1) ||
+                        (grantResults[0] + grantResults[1] + grantResults[2] != PackageManager.PERMISSION_GRANTED))) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false);
+            builder.setMessage("This app cannot work without permission to read external storage.\n" +
+                    "The app will now exit.");
+            builder.setTitle("Permissions denied");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mMainActivity.finish();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 }

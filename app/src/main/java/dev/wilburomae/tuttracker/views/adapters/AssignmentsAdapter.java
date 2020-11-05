@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -18,12 +19,15 @@ import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.models.Assignment;
 
 public class AssignmentsAdapter extends RecyclerView.Adapter<AssignmentsAdapter.ViewHolder> {
-    private final LayoutInflater mInflater;
+    private Context mContext;
+    private FragmentManager mFragmentManager;
+    private LayoutInflater mInflater;
     private List<Assignment> mAssignments;
 
     public AssignmentsAdapter(Fragment fragment, List<Assignment> assignments) {
-        Context context = fragment.getContext();
-        mInflater = LayoutInflater.from(context);
+        mContext = fragment.getContext();
+        mFragmentManager = fragment.getChildFragmentManager();
+        mInflater = LayoutInflater.from(mContext);
         mAssignments = assignments;
     }
 
@@ -33,6 +37,14 @@ public class AssignmentsAdapter extends RecyclerView.Adapter<AssignmentsAdapter.
 
     public void setAssignments(List<Assignment> assignments) {
         mAssignments = assignments;
+    }
+
+    public Context getContext() {
+        return mContext;
+    }
+
+    public FragmentManager getFragmentManager() {
+        return mFragmentManager;
     }
 
     @NonNull

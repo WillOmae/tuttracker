@@ -34,8 +34,8 @@ public class AssignmentManager {
         return null;
     }
 
-    public static void fetch(String uid, ChildEventListener listener) {
-        DB_ASSIGNMENTS.orderByChild("tutorId").equalTo(uid).addChildEventListener(listener);
-        DB_ASSIGNMENTS.orderByChild("studentId").equalTo(uid).addChildEventListener(listener);
+    public static void fetch(String email, ChildEventListener listener) {
+        DB_ASSIGNMENTS.orderByChild("tutorEmail").equalTo(email).addChildEventListener(listener);
+        DB_ASSIGNMENTS.orderByChild("studentEmail").equalTo(email).addChildEventListener(listener);
     }
 }

@@ -40,6 +40,8 @@ public class InboxAdapter extends AssignmentsAdapter {
                     if (user == null) {
                         Toast.makeText(getContext(), "Not logged in.", Toast.LENGTH_SHORT).show();
                     } else {
+                        assignment.setDateGraded(Constants.getFormattedDate());
+
                         Bundle args = new Bundle();
                         args.putSerializable("assignment", assignment);
                         args.putSerializable("stage", AssignmentStage.TO_GRADE);
@@ -64,6 +66,7 @@ public class InboxAdapter extends AssignmentsAdapter {
                         assignment.setStudentEmail(user.getEmail());
                         assignment.setStudentId(user.getUid());
                         assignment.setStudentName(user.getDisplayName());
+                        assignment.setDateSubmitted(Constants.getFormattedDate());
 
                         Bundle args = new Bundle();
                         args.putSerializable("assignment", assignment);

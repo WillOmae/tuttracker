@@ -40,17 +40,19 @@ public class AssignmentsViewModel extends ViewModel {
     }
 
     public void setup(final FirebaseUser user) {
-        AssignmentManager.fetch(user.getUid(), new ChildEventListener() {
+        AssignmentManager.fetch(user.getEmail(), new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Assignment assignment = snapshot.getValue(Assignment.class);
                 if (assignment != null) {
+                    purgeFromAllLiveData(assignment);
+
                     if (Constants.isDateSet(assignment.getDateGraded())) {
                         addToLiveData(mArchivesLiveData, assignment);
                     } else if (Constants.isDateSet(assignment.getDateSubmitted())) {
-                        addToLiveData(assignment.getTutorId().equals(user.getUid()) ? mInboxLiveData : mOutboxLiveData, assignment);
+                        addToLiveData(assignment.getTutorEmail().equals(user.getEmail()) ? mInboxLiveData : mOutboxLiveData, assignment);
                     } else if (Constants.isDateSet(assignment.getDateAssigned())) {
-                        addToLiveData(assignment.getTutorId().equals(user.getUid()) ? mOutboxLiveData : mInboxLiveData, assignment);
+                        addToLiveData(assignment.getTutorEmail().equals(user.getEmail()) ? mOutboxLiveData : mInboxLiveData, assignment);
                     }
                 }
             }
@@ -112,11 +114,21 @@ public class AssignmentsViewModel extends ViewModel {
         removeFromLiveData(mArchivesLiveData, assignment);
     }
 
-    private void removeFromLiveData(MutableLiveData<List<Assignment>> liveData, Assignment assignment) {
+    private void removeFromLiveData(MutableLiveData<List<Assignment>> liveData, final Assignment assignment) {
         List<Assignment> assignments = liveData.getValue();
-        if (assignments != null) {
-            assignments.remove(assignment);
-            liveData.setValue(assignments);
+        if (assignments != null && assignments.size() > 0) {
+            int toRemove;
+            boolean found = false;
+            for (toRemove = 0; toRemove < assignments.size(); toRemove++) {
+                if (assignments.get(toRemove).getId().equals(assignment.getId())) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                assignments.remove(toRemove);
+                liveData.setValue(assignments);
+            }
         }
     }
 }

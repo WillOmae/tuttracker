@@ -1,8 +1,6 @@
 package dev.wilburomae.tuttracker.views.fragments;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,28 +14,23 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import dev.wilburomae.tuttracker.R;
-import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
 import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.OutboxAdapter;
 import dev.wilburomae.tuttracker.views.dialogs.UploadDialog;
-import dev.wilburomae.tuttracker.views.listeners.IUploadListener;
 
-public class OutboxFragment extends Fragment implements IUploadListener {
+public class OutboxFragment extends Fragment {
     private Context mContext;
     private AssignmentsViewModel mAssignmentsViewModel;
 
@@ -63,6 +56,7 @@ public class OutboxFragment extends Fragment implements IUploadListener {
                     Toast.makeText(mContext, "Not logged in.", Toast.LENGTH_SHORT).show();
                 } else {
                     Assignment assignment = new Assignment();
+                    assignment.setId(UUID.randomUUID().toString());
                     assignment.setTutorEmail(user.getEmail());
                     assignment.setTutorId(user.getUid());
                     assignment.setTutorName(user.getDisplayName());
@@ -95,31 +89,5 @@ public class OutboxFragment extends Fragment implements IUploadListener {
         }
 
         return root;
-    }
-
-    @Override
-    public void upload(final Dialog dialog, Assignment assignment, Uri fileUri) {
-        Toast.makeText(mContext, "Upload started...", Toast.LENGTH_SHORT).show();
-
-        assignment.setId(UUID.randomUUID().toString());
-        assignment.setTutorId(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        assignment.setFileAssignedId(UUID.randomUUID().toString());
-
-        UploadTask task = AssignmentManager.upload(assignment, fileUri, AssignmentStage.TO_ASSIGN);
-        if (task != null) {
-            task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(mContext, "Upload complete!", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                }
-            });
-            task.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(mContext, "Upload failed!", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
     }
 }

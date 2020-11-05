@@ -25,11 +25,11 @@ public class AssignmentManager {
 
         switch (stage) {
             case TO_ASSIGN:
-                return FOLDER_ASSIGNED.child(assignment.getFileAssignedId()).putFile(uri);
+                return FOLDER_ASSIGNED.child(assignment.getId()).putFile(uri);
             case TO_SUBMIT:
-                return FOLDER_SUBMITTED.child(assignment.getFileSubmittedId()).putFile(uri);
+                return FOLDER_SUBMITTED.child(assignment.getId()).putFile(uri);
             case TO_GRADE:
-                return FOLDER_GRADED.child(assignment.getFileGradedId()).putFile(uri);
+                return FOLDER_GRADED.child(assignment.getId()).putFile(uri);
         }
         return null;
     }

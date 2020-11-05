@@ -12,9 +12,6 @@ public class Assignment implements Serializable {
     private String mStudentId;
     private String mStudentName;
     private String mStudentEmail;
-    private String mFileAssignedId;
-    private String mFileSubmittedId;
-    private String mFileGradedId;
     private double mGradeScored;
     private double mGradeMax;
     private String mDateAssigned;
@@ -25,7 +22,7 @@ public class Assignment implements Serializable {
     public Assignment() {
     }
 
-    public Assignment(String id, String title, String description, String tutorId, String tutorName, String tutorEmail, String studentId, String studentName, String studentEmail, String fileAssignedId, String fileSubmittedId, String fileGradedId, double gradeScored, double gradeMax, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded) {
+    public Assignment(String id, String title, String description, String tutorId, String tutorName, String tutorEmail, String studentId, String studentName, String studentEmail, double gradeScored, double gradeMax, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -35,9 +32,6 @@ public class Assignment implements Serializable {
         mStudentId = studentId;
         mStudentName = studentName;
         mStudentEmail = studentEmail;
-        mFileAssignedId = fileAssignedId;
-        mFileSubmittedId = fileSubmittedId;
-        mFileGradedId = fileGradedId;
         mGradeScored = gradeScored;
         mGradeMax = gradeMax;
         mDateAssigned = dateAssigned;
@@ -116,30 +110,6 @@ public class Assignment implements Serializable {
 
     public void setStudentEmail(String studentEmail) {
         mStudentEmail = studentEmail;
-    }
-
-    public String getFileAssignedId() {
-        return mFileAssignedId;
-    }
-
-    public void setFileAssignedId(String fileAssignedId) {
-        mFileAssignedId = fileAssignedId;
-    }
-
-    public String getFileSubmittedId() {
-        return mFileSubmittedId;
-    }
-
-    public void setFileSubmittedId(String fileSubmittedId) {
-        mFileSubmittedId = fileSubmittedId;
-    }
-
-    public String getFileGradedId() {
-        return mFileGradedId;
-    }
-
-    public void setFileGradedId(String fileGradedId) {
-        mFileGradedId = fileGradedId;
     }
 
     public double getGradeScored() {

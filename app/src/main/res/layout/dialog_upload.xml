@@ -51,10 +51,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_tutor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_tutor_email"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -64,10 +62,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_student"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_student_email"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -77,10 +73,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_title"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -90,10 +84,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_description"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -104,10 +96,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_grade_max"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_maximum_grade"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -117,10 +107,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_grade_actual"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_actual_grade"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -130,10 +118,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_date_assigned"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_date_assigned"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -143,10 +129,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_date_due"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_date_due"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -156,10 +140,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_date_submitted"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_date_submitted"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -169,10 +151,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/dialog_upload_date_graded"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/dialog_upload_date_graded"
-            app:boxBackgroundColor="@android:color/white">
+            style="@style/MarginedDialogEntry">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"

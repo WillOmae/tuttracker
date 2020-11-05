@@ -132,10 +132,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 String description = mDescription.getEditText().getText().toString();
                 String gradeMax = mGradeMax.getEditText().getText().toString();
                 String gradeActual = mGradeActual.getEditText().getText().toString();
-                String dateAssigned = mDateAssigned.getEditText().getText().toString();
                 String dateDue = mDateDue.getEditText().getText().toString();
-                String dateSubmitted = mDateSubmitted.getEditText().getText().toString();
-                String dateGraded = mDateGraded.getEditText().getText().toString();
 
                 if (verifyInputs()) {
                     if (!tutorEmail.equals(N_A)) mAssignment.setTutorEmail(tutorEmail);
@@ -146,10 +143,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                         mAssignment.setGradeMax(Double.parseDouble(gradeMax));
                     if (!gradeActual.equals(N_A))
                         mAssignment.setGradeScored(Double.parseDouble(gradeActual));
-                    if (!dateAssigned.equals(N_A)) mAssignment.setDateAssigned(dateAssigned);
                     if (!dateDue.equals(N_A)) mAssignment.setDateDue(dateDue);
-                    if (!dateSubmitted.equals(N_A)) mAssignment.setDateSubmitted(dateSubmitted);
-                    if (!dateGraded.equals(N_A)) mAssignment.setDateGraded(dateGraded);
 
                     upload();
                 }
@@ -219,6 +213,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
             case TO_ASSIGN:
                 modifyTextInput(mTutorEmail, mAssignment.getTutorEmail(), false);
                 modifyTextInput(mGradeActual, N_A, false);
+                modifyTextInput(mDateAssigned, mAssignment.getDateAssigned(), true);
                 modifyTextInput(mDateSubmitted, N_A, false);
                 modifyTextInput(mDateGraded, N_A, false);
                 break;
@@ -243,13 +238,16 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 modifyTextInput(mDateAssigned, mAssignment.getDateAssigned(), true);
                 modifyTextInput(mDateDue, mAssignment.getDateDue(), true);
                 modifyTextInput(mDateSubmitted, mAssignment.getDateSubmitted(), true);
+                modifyTextInput(mDateGraded, N_A, false);
                 break;
         }
     }
 
     private void modifyTextInput(TextInputLayout textInputLayout, Object text, boolean visible) {
         textInputLayout.getEditText().setText(String.valueOf(text));
-        textInputLayout.setEnabled(false);
+        textInputLayout.getEditText().setEnabled(false);
+        textInputLayout.getEditText().setFocusable(false);
+        textInputLayout.getEditText().setFocusableInTouchMode(false);
         if (!visible) textInputLayout.setVisibility(View.GONE);
     }
 

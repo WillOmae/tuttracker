@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
@@ -60,6 +61,7 @@ public class OutboxFragment extends Fragment {
                     assignment.setTutorEmail(user.getEmail());
                     assignment.setTutorId(user.getUid());
                     assignment.setTutorName(user.getDisplayName());
+                    assignment.setDateAssigned(Constants.getFormattedDate());
 
                     Bundle args = new Bundle();
                     args.putSerializable("assignment", assignment);

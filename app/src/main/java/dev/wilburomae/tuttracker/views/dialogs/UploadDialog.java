@@ -22,21 +22,23 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.storage.UploadTask;
 
 import java.lang.reflect.Method;
 import java.util.Calendar;
 
 import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
+import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
-import dev.wilburomae.tuttracker.views.listeners.IUploadListener;
 
 @SuppressWarnings("ConstantConditions")
 public class UploadDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private Context mContext;
-    private IUploadListener mUploadListener;
     private Dialog mDialog;
     private Uri mContentUri;
     private TextInputLayout mTutorEmail;
@@ -64,8 +66,6 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         super.onAttach(context);
 
         mContext = context;
-
-        mUploadListener = (IUploadListener) getParentFragment();
 
         Bundle args = getArguments();
         if (args != null && args.containsKey("assignment") && args.containsKey("stage")) {
@@ -123,7 +123,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 String dateSubmitted = mDateSubmitted.getEditText().getText().toString();
                 String dateGraded = mDateGraded.getEditText().getText().toString();
 
-                if (verifyInputs(tutorEmail, studentEmail, title, description, gradeMax, gradeActual, dateAssigned, dateDue, dateSubmitted, dateGraded)) {
+                if (verifyInputs()) {
                     if (!tutorEmail.equals(N_A)) mAssignment.setTutorEmail(tutorEmail);
                     if (!studentEmail.equals(N_A)) mAssignment.setStudentEmail(studentEmail);
                     if (!title.equals(N_A)) mAssignment.setTitle(title);
@@ -137,34 +137,15 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                     if (!dateSubmitted.equals(N_A)) mAssignment.setDateSubmitted(dateSubmitted);
                     if (!dateGraded.equals(N_A)) mAssignment.setDateGraded(dateGraded);
 
-                    mUploadListener.upload(mDialog, mAssignment, mContentUri);
+                    upload();
                 }
             }
         });
-        mDateAssigned.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) showCalender(mDateAssigned, EditingDate.ASSIGN);
-            }
-        });
-        mDateDue.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) showCalender(mDateDue, EditingDate.DUE);
-            }
-        });
-        mDateSubmitted.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) showCalender(mDateSubmitted, EditingDate.SUBMIT);
-            }
-        });
-        mDateGraded.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) showCalender(mDateGraded, EditingDate.GRADE);
-            }
-        });
+
+        setCalendarFocus(mDateAssigned, EditingDate.ASSIGN);
+        setCalendarFocus(mDateDue, EditingDate.DUE);
+        setCalendarFocus(mDateSubmitted, EditingDate.SUBMIT);
+        setCalendarFocus(mDateGraded, EditingDate.GRADE);
 
         preventKeyboard(mDateAssigned.getEditText());
         preventKeyboard(mDateDue.getEditText());
@@ -195,6 +176,15 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         }
     }
 
+    private void setCalendarFocus(final TextInputLayout textInputLayout, final EditingDate editingDate) {
+        textInputLayout.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) showCalender(textInputLayout, editingDate);
+            }
+        });
+    }
+
     private void showCalender(View view, EditingDate which) {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -213,123 +203,69 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
     private void setViews() {
         switch (mStage) {
             case TO_ASSIGN:
-                mTutorEmail.getEditText().setText(mAssignment.getTutorEmail());
-                mTutorEmail.setEnabled(false);
-                mTutorEmail.setVisibility(View.GONE);
-                mGradeActual.getEditText().setText(N_A);
-                mGradeActual.setEnabled(false);
-                mGradeActual.setVisibility(View.GONE);
-                mDateSubmitted.getEditText().setText(N_A);
-                mDateSubmitted.setEnabled(false);
-                mDateSubmitted.setVisibility(View.GONE);
-                mDateGraded.getEditText().setText(N_A);
-                mDateGraded.setEnabled(false);
-                mDateGraded.setVisibility(View.GONE);
+                modifyTextInput(mTutorEmail, mAssignment.getTutorEmail(), false);
+                modifyTextInput(mGradeActual, N_A, false);
+                modifyTextInput(mDateSubmitted, N_A, false);
+                modifyTextInput(mDateGraded, N_A, false);
                 break;
             case TO_SUBMIT:
-                mTutorEmail.getEditText().setText(mAssignment.getTutorEmail());
-                mTutorEmail.setEnabled(false);
-                mStudentEmail.getEditText().setText(mAssignment.getStudentEmail());
-                mStudentEmail.setEnabled(false);
-                mStudentEmail.setVisibility(View.GONE);
-                mTitle.getEditText().setText(mAssignment.getTitle());
-                mTitle.setEnabled(false);
-                mDescription.getEditText().setText(mAssignment.getDescription());
-                mDescription.setEnabled(false);
-                mGradeActual.getEditText().setText(N_A);
-                mGradeActual.setEnabled(false);
-                mGradeActual.setVisibility(View.GONE);
-                mGradeMax.getEditText().setText(String.valueOf(mAssignment.getGradeMax()));
-                mGradeMax.setEnabled(false);
-                mDateAssigned.getEditText().setText(mAssignment.getDateAssigned());
-                mDateAssigned.setEnabled(false);
-                mDateDue.getEditText().setText(mAssignment.getDateDue());
-                mDateDue.setEnabled(false);
-                mDateSubmitted.getEditText().setText(N_A);
-                mDateSubmitted.setEnabled(false);
-                mDateSubmitted.setVisibility(View.GONE);
-                mDateGraded.getEditText().setText(N_A);
-                mDateGraded.setEnabled(false);
-                mDateGraded.setVisibility(View.GONE);
+                modifyTextInput(mTutorEmail, mAssignment.getTutorEmail(), true);
+                modifyTextInput(mStudentEmail, mAssignment.getStudentEmail(), false);
+                modifyTextInput(mTitle, mAssignment.getTitle(), true);
+                modifyTextInput(mDescription, mAssignment.getDescription(), true);
+                modifyTextInput(mGradeActual, N_A, false);
+                modifyTextInput(mGradeMax, mAssignment.getGradeMax(), true);
+                modifyTextInput(mDateAssigned, mAssignment.getDateAssigned(), true);
+                modifyTextInput(mDateDue, mAssignment.getDateDue(), true);
+                modifyTextInput(mDateSubmitted, N_A, false);
+                modifyTextInput(mDateGraded, N_A, false);
                 break;
             case TO_GRADE:
-                mTutorEmail.getEditText().setText(mAssignment.getTutorEmail());
-                mTutorEmail.setEnabled(false);
-                mTutorEmail.setVisibility(View.GONE);
-                mStudentEmail.getEditText().setText(mAssignment.getStudentEmail());
-                mStudentEmail.setEnabled(false);
-                mTitle.getEditText().setText(mAssignment.getTitle());
-                mTitle.setEnabled(false);
-                mDescription.getEditText().setText(mAssignment.getDescription());
-                mDescription.setEnabled(false);
-                mGradeMax.getEditText().setText(String.valueOf(mAssignment.getGradeMax()));
-                mGradeMax.setEnabled(false);
-                mDateAssigned.getEditText().setText(mAssignment.getDateAssigned());
-                mDateAssigned.setEnabled(false);
-                mDateDue.getEditText().setText(mAssignment.getDateDue());
-                mDateDue.setEnabled(false);
-                mDateSubmitted.getEditText().setText(mAssignment.getDateSubmitted());
-                mDateSubmitted.setEnabled(false);
+                modifyTextInput(mTutorEmail, mAssignment.getTutorEmail(), false);
+                modifyTextInput(mStudentEmail, mAssignment.getStudentEmail(), true);
+                modifyTextInput(mTitle, mAssignment.getTitle(), true);
+                modifyTextInput(mDescription, mAssignment.getDescription(), true);
+                modifyTextInput(mGradeMax, mAssignment.getGradeMax(), true);
+                modifyTextInput(mDateAssigned, mAssignment.getDateAssigned(), true);
+                modifyTextInput(mDateDue, mAssignment.getDateDue(), true);
+                modifyTextInput(mDateSubmitted, mAssignment.getDateSubmitted(), true);
                 break;
         }
     }
 
-    private boolean verifyInputs(String tutorEmail, String studentEmail, String title, String description, String gradeMax, String gradeActual, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded) {
+    private void modifyTextInput(TextInputLayout textInputLayout, Object text, boolean visible) {
+        textInputLayout.getEditText().setText(String.valueOf(text));
+        textInputLayout.setEnabled(false);
+        if (!visible) textInputLayout.setVisibility(View.GONE);
+    }
+
+    private boolean verifyInputs() {
+        if (verifyInputFails(mTutorEmail, "Set the tutor's email")) return false;
+        if (verifyInputFails(mStudentEmail, "Set the students's email")) return false;
+        if (verifyInputFails(mTitle, "Set a title for this assignment")) return false;
+        if (verifyInputFails(mDescription, "Briefly describe this assignment")) return false;
+        if (verifyInputFails(mGradeMax, "Assign a maximum grade to this assignment")) return false;
+        if (verifyInputFails(mGradeActual, "Set the actual grade")) return false;
+        if (verifyInputFails(mDateAssigned, "Set the assigned date")) return false;
+        if (verifyInputFails(mDateDue, "Set the due date")) return false;
+        if (verifyInputFails(mDateSubmitted, "Set the date of submission")) return false;
+        if (verifyInputFails(mDateGraded, "Set the date of grading")) return false;
         if (mContentUri == null) {
             Toast.makeText(getContext(), "Select a file", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (tutorEmail.isEmpty()) {
-            mTutorEmail.requestFocus();
-            Toast.makeText(getContext(), "Set the tutor's email", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (studentEmail.isEmpty()) {
-            mStudentEmail.requestFocus();
-            Toast.makeText(getContext(), "Set the student's email", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (title.isEmpty()) {
-            mTitle.requestFocus();
-            Toast.makeText(getContext(), "Set a title for this assignment", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (description.isEmpty()) {
-            mDescription.requestFocus();
-            Toast.makeText(getContext(), "Briefly describe this assignment", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (gradeMax.isEmpty()) {
-            mGradeMax.requestFocus();
-            Toast.makeText(getContext(), "Assign a maximum grade to this assignment", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (gradeActual.isEmpty()) {
-            mGradeActual.requestFocus();
-            Toast.makeText(getContext(), "Set the actual grade", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (dateAssigned.isEmpty()) {
-            mDateAssigned.requestFocus();
-            Toast.makeText(getContext(), "Set the assigned date", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (dateDue.isEmpty()) {
-            mDateDue.requestFocus();
-            Toast.makeText(getContext(), "Set the due date", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (dateSubmitted.isEmpty()) {
-            mDateSubmitted.requestFocus();
-            Toast.makeText(getContext(), "Set the date of submission", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (dateGraded.isEmpty()) {
-            mDateGraded.requestFocus();
-            Toast.makeText(getContext(), "Set the date of grading", Toast.LENGTH_SHORT).show();
-            return false;
-        }
         return true;
+    }
+
+    private boolean verifyInputFails(TextInputLayout textInputLayout, String message) {
+        String input = textInputLayout.getEditText().getText().toString();
+        if (input.isEmpty()) {
+            textInputLayout.requestFocus();
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void openFilePicker() {
@@ -349,6 +285,27 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         }
 
         startActivityForResult(Intent.createChooser(pickerIntent, "Choose assignment file"), Constants.RC_CONTENT_PICKER);
+    }
+
+    private void upload() {
+        Toast.makeText(getContext(), "Upload started...", Toast.LENGTH_SHORT).show();
+
+        UploadTask task = AssignmentManager.upload(mAssignment, mContentUri, AssignmentStage.TO_ASSIGN);
+        if (task != null) {
+            task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(getContext(), "Upload complete!", Toast.LENGTH_SHORT).show();
+                    mDialog.dismiss();
+                }
+            });
+            task.addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(getContext(), "Upload failed!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @Override

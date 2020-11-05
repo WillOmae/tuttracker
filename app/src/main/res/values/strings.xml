@@ -24,4 +24,6 @@
     <string name="date_graded">Date graded</string>
     <string name="cancel">Cancel</string>
     <string name="proceed">Proceed</string>
+    <string name="grade">Grade</string>
+    <string name="grade_separator">/</string>
 </resources>

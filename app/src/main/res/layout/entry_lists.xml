@@ -24,7 +24,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="Title"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/entry_lists_description"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -35,7 +34,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="4"
-            android:text="Description"
             app:layout_constraintTop_toBottomOf="@id/entry_lists_title"
             app:layout_constraintBottom_toTopOf="@id/entry_lists_date_label"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +44,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="Date assigned"
             app:layout_constraintTop_toBottomOf="@id/entry_lists_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -57,7 +54,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:lines="1"
-            android:text="20/10/2020"
             app:layout_constraintTop_toBottomOf="@id/entry_lists_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/entry_lists_date_label"
@@ -71,21 +67,33 @@
             app:layout_constraintTop_toBottomOf="@id/entry_lists_description"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/entry_lists_date_value"
-            app:layout_constraintRight_toRightOf="parent">
+            app:layout_constraintRight_toRightOf="parent"
+            android:gravity="end">
 
             <TextView
                 android:id="@+id/entry_lists_grade_label"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:lines="1"
-                android:text="Grade" />
+                android:text="@string/grade" />
 
             <TextView
                 android:id="@+id/entry_lists_grade_value"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:lines="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:lines="1"
-                android:text="80%" />
+                android:text="@string/grade_separator" />
+
+            <TextView
+                android:id="@+id/entry_lists_grade_max"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:lines="1" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

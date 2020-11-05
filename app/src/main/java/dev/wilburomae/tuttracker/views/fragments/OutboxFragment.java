@@ -30,7 +30,7 @@ import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.OutboxAdapter;
 
-public class OutboxFragment extends Fragment {
+public class OutboxFragment extends ListFragment {
     private Context mContext;
     private AssignmentsViewModel mAssignmentsViewModel;
 

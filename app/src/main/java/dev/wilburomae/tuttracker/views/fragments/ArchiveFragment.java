@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +21,7 @@ import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.ArchiveAdapter;
 
-public class ArchiveFragment extends Fragment {
+public class ArchiveFragment extends ListFragment {
     private Context mContext;
     private AssignmentsViewModel mAssignmentsViewModel;
 
@@ -46,7 +45,7 @@ public class ArchiveFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        if(mAssignmentsViewModel!=null){
+        if (mAssignmentsViewModel != null) {
             mAssignmentsViewModel.getArchivesData().observe(getViewLifecycleOwner(), new Observer<List<Assignment>>() {
                 @Override
                 public void onChanged(List<Assignment> assignments) {

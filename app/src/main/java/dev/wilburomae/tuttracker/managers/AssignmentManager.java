@@ -38,4 +38,8 @@ public class AssignmentManager {
         DB_ASSIGNMENTS.orderByChild("tutorEmail").equalTo(email).addChildEventListener(listener);
         DB_ASSIGNMENTS.orderByChild("studentEmail").equalTo(email).addChildEventListener(listener);
     }
+
+    public static void open(Assignment assignment) {
+
+    }
 }

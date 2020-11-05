@@ -37,7 +37,6 @@ import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
 
-@SuppressWarnings("ConstantConditions")
 public class UploadDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private Context mContext;
     private Dialog mDialog;
@@ -69,9 +68,9 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         mContext = context;
 
         Bundle args = getArguments();
-        if (args != null && args.containsKey("assignment") && args.containsKey("stage")) {
-            mAssignment = (Assignment) args.getSerializable("assignment");
-            mStage = (AssignmentStage) args.getSerializable("stage");
+        if (args != null && args.containsKey(Constants.BUNDLE_ASSIGNMENT) && args.containsKey(Constants.BUNDLE_STAGE)) {
+            mAssignment = (Assignment) args.getSerializable(Constants.BUNDLE_ASSIGNMENT);
+            mStage = (AssignmentStage) args.getSerializable(Constants.BUNDLE_STAGE);
         }
     }
 

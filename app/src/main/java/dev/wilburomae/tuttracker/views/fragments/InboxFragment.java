@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +21,7 @@ import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.InboxAdapter;
 
-public class InboxFragment extends Fragment {
+public class InboxFragment extends ListFragment {
     private Context mContext;
     private AssignmentsViewModel mAssignmentsViewModel;
 

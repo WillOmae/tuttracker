@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -82,6 +83,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         @SuppressLint("InflateParams")
         View view = inflater.inflate(R.layout.dialog_upload, null);
 
+        TextView dialogHeader = view.findViewById(R.id.dialog_upload_header);
         Button fetchContent = view.findViewById(R.id.dialog_upload_fetch_content);
         mContentSet = view.findViewById(R.id.dialog_upload_fetch_content_set);
         mTutorEmail = view.findViewById(R.id.dialog_upload_tutor);
@@ -96,6 +98,18 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         mDateGraded = view.findViewById(R.id.dialog_upload_date_graded);
         Button cancel = view.findViewById(R.id.dialog_upload_cancel);
         Button accept = view.findViewById(R.id.dialog_upload_accept);
+
+        switch (mStage) {
+            case TO_ASSIGN:
+                dialogHeader.setText(R.string.dialog_upload_header_new);
+                break;
+            case TO_SUBMIT:
+                dialogHeader.setText(R.string.dialog_upload_header_turn_in);
+                break;
+            case TO_GRADE:
+                dialogHeader.setText(R.string.dialog_upload_header_grade);
+                break;
+        }
 
         fetchContent.setOnClickListener(new View.OnClickListener() {
             @Override

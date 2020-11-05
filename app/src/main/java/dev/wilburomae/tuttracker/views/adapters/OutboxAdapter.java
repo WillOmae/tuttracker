@@ -23,10 +23,10 @@ public class OutboxAdapter extends AssignmentsAdapter {
         holder.mDescription.setText(assignment.getDescription());
         holder.mGradeHolder.setVisibility(View.GONE);
         if (Constants.isDateSet(assignment.getDateSubmitted())) {
-            holder.mDateLabel.setText(R.string.date_submitted);
+            holder.mDateLabel.setText(R.string.dialog_upload_date_submitted);
             holder.mDateValue.setText(assignment.getDateSubmitted());
         } else {
-            holder.mDateLabel.setText(R.string.date_due);
+            holder.mDateLabel.setText(R.string.dialog_upload_date_due);
             holder.mDateValue.setText(assignment.getDateDue());
         }
     }

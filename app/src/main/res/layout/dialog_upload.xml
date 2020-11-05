@@ -11,9 +11,9 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/dialog_upload_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/upload_file"
             android:textSize="25sp" />
 
         <View
@@ -36,7 +36,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:layout_gravity="center_vertical"
-                android:text="@string/select_file" />
+                android:text="@string/dialog_upload_select_file" />
 
             <ImageView
                 android:id="@+id/dialog_upload_fetch_content_set"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center_vertical"
-                android:contentDescription="@string/file_selected"
+                android:contentDescription="@string/dialog_upload_file_selected"
                 android:src="@drawable/ic_error"
                 app:tint="@color/primary" />
         </LinearLayout>
@@ -53,7 +53,7 @@
             android:id="@+id/dialog_upload_tutor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/tutor_email"
+            android:hint="@string/dialog_upload_tutor_email"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -66,7 +66,7 @@
             android:id="@+id/dialog_upload_student"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/student_email"
+            android:hint="@string/dialog_upload_student_email"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -79,7 +79,7 @@
             android:id="@+id/dialog_upload_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/title"
+            android:hint="@string/dialog_upload_title"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -92,7 +92,7 @@
             android:id="@+id/dialog_upload_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/description"
+            android:hint="@string/dialog_upload_description"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -106,7 +106,7 @@
             android:id="@+id/dialog_upload_grade_max"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/maximum_grade"
+            android:hint="@string/dialog_upload_maximum_grade"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -119,7 +119,7 @@
             android:id="@+id/dialog_upload_grade_actual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/actual_grade"
+            android:hint="@string/dialog_upload_actual_grade"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -132,7 +132,7 @@
             android:id="@+id/dialog_upload_date_assigned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date_assigned"
+            android:hint="@string/dialog_upload_date_assigned"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -145,7 +145,7 @@
             android:id="@+id/dialog_upload_date_due"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date_due"
+            android:hint="@string/dialog_upload_date_due"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -158,7 +158,7 @@
             android:id="@+id/dialog_upload_date_submitted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date_submitted"
+            android:hint="@string/dialog_upload_date_submitted"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -171,7 +171,7 @@
             android:id="@+id/dialog_upload_date_graded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/date_graded"
+            android:hint="@string/dialog_upload_date_graded"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -196,7 +196,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_gravity="center_vertical"
-                android:text="@string/cancel"
+                android:text="@string/dialog_upload_cancel"
                 android:textColor="@color/primary"
                 style="@style/Widget.AppCompat.Button.Borderless" />
 
@@ -205,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:text="@string/proceed"
+                android:text="@string/dialog_upload_proceed"
                 android:textColor="@color/primary"
                 style="@style/Widget.AppCompat.Button.Borderless" />
         </LinearLayout>

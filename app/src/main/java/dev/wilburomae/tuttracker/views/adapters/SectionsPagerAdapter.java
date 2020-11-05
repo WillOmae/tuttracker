@@ -23,7 +23,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mContext = context;
         mTabTitles = new int[]{
-                R.string.home_tab_inbox, R.string.home_tab_outbox, R.string.archive, R.string.home_tab_stats
+                R.string.home_tab_inbox, R.string.home_tab_outbox, R.string.home_tab_archive, R.string.home_tab_stats
         };
         mFragments = new Fragment[]{
                 new InboxFragment(),

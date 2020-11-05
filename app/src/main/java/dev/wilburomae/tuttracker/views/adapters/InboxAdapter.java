@@ -30,7 +30,7 @@ public class InboxAdapter extends AssignmentsAdapter {
         holder.mDescription.setText(assignment.getDescription());
         holder.mGradeHolder.setVisibility(View.GONE);
         if (Constants.isDateSet(assignment.getDateSubmitted())) {
-            holder.mDateLabel.setText(R.string.date_submitted);
+            holder.mDateLabel.setText(R.string.dialog_upload_date_submitted);
             holder.mDateValue.setText(assignment.getDateSubmitted());
 
             holder.mHolder.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +51,7 @@ public class InboxAdapter extends AssignmentsAdapter {
                 }
             });
         } else {
-            holder.mDateLabel.setText(R.string.date_due);
+            holder.mDateLabel.setText(R.string.dialog_upload_date_due);
             holder.mDateValue.setText(assignment.getDateDue());
 
             holder.mHolder.setOnClickListener(new View.OnClickListener() {

@@ -21,7 +21,7 @@ public class ArchiveAdapter extends AssignmentsAdapter {
         holder.mTitle.setText(assignment.getTitle());
         holder.mDescription.setText(assignment.getDescription());
         holder.mGradeHolder.setVisibility(View.VISIBLE);
-        holder.mDateLabel.setText(R.string.date_graded);
+        holder.mDateLabel.setText(R.string.dialog_upload_date_graded);
         holder.mDateValue.setText(assignment.getDateGraded());
     }
 }

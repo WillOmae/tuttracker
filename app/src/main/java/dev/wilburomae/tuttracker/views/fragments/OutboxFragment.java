@@ -1,5 +1,6 @@
 package dev.wilburomae.tuttracker.views.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.managers.AssignmentManager;
@@ -91,14 +93,20 @@ public class OutboxFragment extends Fragment implements IUploadListener {
     }
 
     @Override
-    public void upload(Assignment assignment, Uri fileUri) {
+    public void upload(final Dialog dialog, Assignment assignment, Uri fileUri) {
         Toast.makeText(mContext, "Upload started...", Toast.LENGTH_SHORT).show();
+
+        assignment.setId(UUID.randomUUID().toString());
+        assignment.setTutorId(mUser.getUid());
+        assignment.setFileAssignedId(UUID.randomUUID().toString());
+
         UploadTask task = AssignmentManager.upload(assignment, fileUri, AssignmentStage.TO_ASSIGN);
         if (task != null) {
             task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(mContext, "Upload complete!", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
                 }
             });
             task.addOnFailureListener(new OnFailureListener() {

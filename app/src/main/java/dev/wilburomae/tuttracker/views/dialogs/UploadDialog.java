@@ -137,7 +137,7 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                     if (!dateSubmitted.equals(N_A)) mAssignment.setDateSubmitted(dateSubmitted);
                     if (!dateGraded.equals(N_A)) mAssignment.setDateGraded(dateGraded);
 
-                    mUploadListener.upload(mAssignment, mContentUri);
+                    mUploadListener.upload(mDialog, mAssignment, mContentUri);
                 }
             }
         });

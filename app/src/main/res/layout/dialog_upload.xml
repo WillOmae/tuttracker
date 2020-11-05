@@ -50,52 +50,52 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_tutor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/tutor_email"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dialog_upload_tutor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_student"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/student_email"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dialog_upload_student"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/title"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dialog_upload_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/description"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/dialog_upload_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
@@ -103,87 +103,81 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_grade_max"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/maximum_grade"
             app:boxBackgroundColor="@android:color/white">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/dialog_upload_grade_max"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_grade_actual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/actual_grade"
             app:boxBackgroundColor="@android:color/white">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/dialog_upload_grade_actual"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+                android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_date_assigned"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/date_assigned"
             app:boxBackgroundColor="@android:color/white">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/dialog_upload_date_assigned"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_date_due"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/date_due"
             app:boxBackgroundColor="@android:color/white">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/dialog_upload_date_due"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_date_submitted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/date_submitted"
             app:boxBackgroundColor="@android:color/white">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/dialog_upload_date_submitted"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dialog_upload_date_graded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/date_graded"
             app:boxBackgroundColor="@android:color/white">
 
-            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                android:id="@+id/dialog_upload_date_graded"
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                style="@style/Widget.MaterialComponents.AutoCompleteTextView.FilledBox" />
+                android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout

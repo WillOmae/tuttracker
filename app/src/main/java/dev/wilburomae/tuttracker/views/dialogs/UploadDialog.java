@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,6 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.lang.reflect.Method;
 import java.util.Calendar;
 
 import dev.wilburomae.tuttracker.Constants;
@@ -30,22 +33,23 @@ import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
 import dev.wilburomae.tuttracker.views.listeners.IUploadListener;
 
+@SuppressWarnings("ConstantConditions")
 public class UploadDialog extends DialogFragment implements DatePickerDialog.OnDateSetListener {
     private Context mContext;
     private IUploadListener mUploadListener;
     private Dialog mDialog;
     private Uri mContentUri;
-    private TextView mTutorEmail;
-    private TextView mStudentEmail;
-    private TextView mTitle;
+    private TextInputLayout mTutorEmail;
+    private TextInputLayout mStudentEmail;
+    private TextInputLayout mTitle;
     private ImageView mContentSet;
-    private TextView mDescription;
-    private TextView mGradeMax;
-    private TextView mGradeActual;
-    private TextView mDateAssigned;
-    private TextView mDateDue;
-    private TextView mDateSubmitted;
-    private TextView mDateGraded;
+    private TextInputLayout mDescription;
+    private TextInputLayout mGradeMax;
+    private TextInputLayout mGradeActual;
+    private TextInputLayout mDateAssigned;
+    private TextInputLayout mDateDue;
+    private TextInputLayout mDateSubmitted;
+    private TextInputLayout mDateGraded;
     private Assignment mAssignment;
     private AssignmentStage mStage;
     private EditingDate mEditingDate;
@@ -108,57 +112,64 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String tutorEmail = mTutorEmail.getText().toString();
-                String studentEmail = mStudentEmail.getText().toString();
-                String title = mTitle.getText().toString();
-                String description = mDescription.getText().toString();
-                String gradeMax = mGradeMax.getText().toString();
-                String gradeActual = mGradeActual.getText().toString();
-                String dateAssigned = mDateAssigned.getText().toString();
-                String dateDue = mDateDue.getText().toString();
-                String dateSubmitted = mDateSubmitted.getText().toString();
-                String dateGraded = mDateGraded.getText().toString();
+                String tutorEmail = mTutorEmail.getEditText().getText().toString();
+                String studentEmail = mStudentEmail.getEditText().getText().toString();
+                String title = mTitle.getEditText().getText().toString();
+                String description = mDescription.getEditText().getText().toString();
+                String gradeMax = mGradeMax.getEditText().getText().toString();
+                String gradeActual = mGradeActual.getEditText().getText().toString();
+                String dateAssigned = mDateAssigned.getEditText().getText().toString();
+                String dateDue = mDateDue.getEditText().getText().toString();
+                String dateSubmitted = mDateSubmitted.getEditText().getText().toString();
+                String dateGraded = mDateGraded.getEditText().getText().toString();
 
                 if (verifyInputs(tutorEmail, studentEmail, title, description, gradeMax, gradeActual, dateAssigned, dateDue, dateSubmitted, dateGraded)) {
-                    if(!tutorEmail.equals(N_A)) mAssignment.setTutorEmail(tutorEmail);
-                    if(!studentEmail.equals(N_A)) mAssignment.setStudentEmail(studentEmail);
-                    if(!title.equals(N_A)) mAssignment.setTitle(title);
-                    if(!description.equals(N_A)) mAssignment.setDescription(description);
-                    if(!gradeMax.equals(N_A)) mAssignment.setGradeMax(Double.parseDouble(gradeMax));
-                    if(!gradeActual.equals(N_A)) mAssignment.setGradeScored(Double.parseDouble(gradeActual));
-                    if(!dateAssigned.equals(N_A)) mAssignment.setDateAssigned(dateAssigned);
-                    if(!dateDue.equals(N_A)) mAssignment.setDateDue(dateDue);
-                    if(!dateSubmitted.equals(N_A)) mAssignment.setDateSubmitted(dateSubmitted);
-                    if(!dateGraded.equals(N_A)) mAssignment.setDateGraded(dateGraded);
+                    if (!tutorEmail.equals(N_A)) mAssignment.setTutorEmail(tutorEmail);
+                    if (!studentEmail.equals(N_A)) mAssignment.setStudentEmail(studentEmail);
+                    if (!title.equals(N_A)) mAssignment.setTitle(title);
+                    if (!description.equals(N_A)) mAssignment.setDescription(description);
+                    if (!gradeMax.equals(N_A))
+                        mAssignment.setGradeMax(Double.parseDouble(gradeMax));
+                    if (!gradeActual.equals(N_A))
+                        mAssignment.setGradeScored(Double.parseDouble(gradeActual));
+                    if (!dateAssigned.equals(N_A)) mAssignment.setDateAssigned(dateAssigned);
+                    if (!dateDue.equals(N_A)) mAssignment.setDateDue(dateDue);
+                    if (!dateSubmitted.equals(N_A)) mAssignment.setDateSubmitted(dateSubmitted);
+                    if (!dateGraded.equals(N_A)) mAssignment.setDateGraded(dateGraded);
 
                     mUploadListener.upload(mAssignment, mContentUri);
                 }
             }
         });
-        mDateAssigned.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mDateAssigned.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) showCalender(mDateAssigned, EditingDate.ASSIGN);
             }
         });
-        mDateDue.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mDateDue.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) showCalender(mDateDue, EditingDate.DUE);
             }
         });
-        mDateSubmitted.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mDateSubmitted.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) showCalender(mDateSubmitted, EditingDate.SUBMIT);
             }
         });
-        mDateGraded.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        mDateGraded.getEditText().setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) showCalender(mDateGraded, EditingDate.GRADE);
             }
         });
+
+        preventKeyboard(mDateAssigned.getEditText());
+        preventKeyboard(mDateDue.getEditText());
+        preventKeyboard(mDateSubmitted.getEditText());
+        preventKeyboard(mDateGraded.getEditText());
 
         setViews();
 
@@ -166,6 +177,22 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         mDialog.setCanceledOnTouchOutside(false);
 
         return mDialog;
+    }
+
+    private void preventKeyboard(EditText view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.setShowSoftInputOnFocus(false);
+        } else {
+            try {
+                final Method method = EditText.class.getMethod(
+                        "setShowSoftInputOnFocus"
+                        , boolean.class);
+                method.setAccessible(true);
+                method.invoke(view, false);
+            } catch (Exception e) {
+                // ignore
+            }
+        }
     }
 
     private void showCalender(View view, EditingDate which) {
@@ -186,62 +213,62 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
     private void setViews() {
         switch (mStage) {
             case TO_ASSIGN:
-                mTutorEmail.setText(mAssignment.getTutorEmail());
+                mTutorEmail.getEditText().setText(mAssignment.getTutorEmail());
                 mTutorEmail.setEnabled(false);
                 mTutorEmail.setVisibility(View.GONE);
-                mGradeActual.setText(N_A);
+                mGradeActual.getEditText().setText(N_A);
                 mGradeActual.setEnabled(false);
                 mGradeActual.setVisibility(View.GONE);
-                mDateSubmitted.setText(N_A);
+                mDateSubmitted.getEditText().setText(N_A);
                 mDateSubmitted.setEnabled(false);
                 mDateSubmitted.setVisibility(View.GONE);
-                mDateGraded.setText(N_A);
+                mDateGraded.getEditText().setText(N_A);
                 mDateGraded.setEnabled(false);
                 mDateGraded.setVisibility(View.GONE);
                 break;
             case TO_SUBMIT:
-                mTutorEmail.setText(mAssignment.getTutorEmail());
+                mTutorEmail.getEditText().setText(mAssignment.getTutorEmail());
                 mTutorEmail.setEnabled(false);
-                mStudentEmail.setText(mAssignment.getStudentEmail());
+                mStudentEmail.getEditText().setText(mAssignment.getStudentEmail());
                 mStudentEmail.setEnabled(false);
                 mStudentEmail.setVisibility(View.GONE);
-                mTitle.setText(mAssignment.getTitle());
+                mTitle.getEditText().setText(mAssignment.getTitle());
                 mTitle.setEnabled(false);
-                mDescription.setText(mAssignment.getDescription());
+                mDescription.getEditText().setText(mAssignment.getDescription());
                 mDescription.setEnabled(false);
-                mGradeActual.setText(N_A);
+                mGradeActual.getEditText().setText(N_A);
                 mGradeActual.setEnabled(false);
                 mGradeActual.setVisibility(View.GONE);
-                mGradeMax.setText(String.valueOf(mAssignment.getGradeMax()));
+                mGradeMax.getEditText().setText(String.valueOf(mAssignment.getGradeMax()));
                 mGradeMax.setEnabled(false);
-                mDateAssigned.setText(mAssignment.getDateAssigned());
+                mDateAssigned.getEditText().setText(mAssignment.getDateAssigned());
                 mDateAssigned.setEnabled(false);
-                mDateDue.setText(mAssignment.getDateDue());
+                mDateDue.getEditText().setText(mAssignment.getDateDue());
                 mDateDue.setEnabled(false);
-                mDateSubmitted.setText(N_A);
+                mDateSubmitted.getEditText().setText(N_A);
                 mDateSubmitted.setEnabled(false);
                 mDateSubmitted.setVisibility(View.GONE);
-                mDateGraded.setText(N_A);
+                mDateGraded.getEditText().setText(N_A);
                 mDateGraded.setEnabled(false);
                 mDateGraded.setVisibility(View.GONE);
                 break;
             case TO_GRADE:
-                mTutorEmail.setText(mAssignment.getTutorEmail());
+                mTutorEmail.getEditText().setText(mAssignment.getTutorEmail());
                 mTutorEmail.setEnabled(false);
                 mTutorEmail.setVisibility(View.GONE);
-                mStudentEmail.setText(mAssignment.getStudentEmail());
+                mStudentEmail.getEditText().setText(mAssignment.getStudentEmail());
                 mStudentEmail.setEnabled(false);
-                mTitle.setText(mAssignment.getTitle());
+                mTitle.getEditText().setText(mAssignment.getTitle());
                 mTitle.setEnabled(false);
-                mDescription.setText(mAssignment.getDescription());
+                mDescription.getEditText().setText(mAssignment.getDescription());
                 mDescription.setEnabled(false);
-                mGradeMax.setText(String.valueOf(mAssignment.getGradeMax()));
+                mGradeMax.getEditText().setText(String.valueOf(mAssignment.getGradeMax()));
                 mGradeMax.setEnabled(false);
-                mDateAssigned.setText(mAssignment.getDateAssigned());
+                mDateAssigned.getEditText().setText(mAssignment.getDateAssigned());
                 mDateAssigned.setEnabled(false);
-                mDateDue.setText(mAssignment.getDateDue());
+                mDateDue.getEditText().setText(mAssignment.getDateDue());
                 mDateDue.setEnabled(false);
-                mDateSubmitted.setText(mAssignment.getDateSubmitted());
+                mDateSubmitted.getEditText().setText(mAssignment.getDateSubmitted());
                 mDateSubmitted.setEnabled(false);
                 break;
         }
@@ -341,16 +368,16 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
         String toShow = dayOfMonth + "-" + month + "-" + year;
         switch (mEditingDate) {
             case ASSIGN:
-                mDateAssigned.setText(toShow);
+                mDateAssigned.getEditText().setText(toShow);
                 break;
             case DUE:
-                mDateDue.setText(toShow);
+                mDateDue.getEditText().setText(toShow);
                 break;
             case SUBMIT:
-                mDateSubmitted.setText(toShow);
+                mDateSubmitted.getEditText().setText(toShow);
                 break;
             case GRADE:
-                mDateGraded.setText(toShow);
+                mDateGraded.getEditText().setText(toShow);
                 break;
         }
     }

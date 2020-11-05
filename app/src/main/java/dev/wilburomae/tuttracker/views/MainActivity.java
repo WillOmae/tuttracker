@@ -33,7 +33,6 @@ import java.util.List;
 
 import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
-import dev.wilburomae.tuttracker.managers.UserManager;
 import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.adapters.SectionsPagerAdapter;
 
@@ -150,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 mUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (resultCode == RESULT_OK && mUser != null) {
-                    UserManager.CreateUser(mUser);
                     Toast.makeText(mContext, "Welcome, " + mUser.getDisplayName(), Toast.LENGTH_SHORT).show();
                     modifyNavDrawerUserDetails();
                 } else {

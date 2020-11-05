@@ -29,7 +29,6 @@ import dev.wilburomae.tuttracker.models.AssignmentStage;
 import dev.wilburomae.tuttracker.viewmodels.AssignmentsViewModel;
 import dev.wilburomae.tuttracker.views.MainActivity;
 import dev.wilburomae.tuttracker.views.adapters.OutboxAdapter;
-import dev.wilburomae.tuttracker.views.dialogs.UploadDialog;
 
 public class OutboxFragment extends Fragment {
     private Context mContext;
@@ -63,13 +62,7 @@ public class OutboxFragment extends Fragment {
                     assignment.setTutorName(user.getDisplayName());
                     assignment.setDateAssigned(Constants.getFormattedDate());
 
-                    Bundle args = new Bundle();
-                    args.putSerializable("assignment", assignment);
-                    args.putSerializable("stage", AssignmentStage.TO_ASSIGN);
-
-                    UploadDialog dialogFragment = new UploadDialog();
-                    dialogFragment.setArguments(args);
-                    dialogFragment.show(getChildFragmentManager(), UploadDialog.class.getName());
+                    Constants.showUploadDialog(getChildFragmentManager(), assignment, AssignmentStage.TO_ASSIGN);
                 }
             }
         });

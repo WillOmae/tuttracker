@@ -1,6 +1,5 @@
 package dev.wilburomae.tuttracker.views.adapters;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
@@ -16,7 +15,6 @@ import dev.wilburomae.tuttracker.Constants;
 import dev.wilburomae.tuttracker.R;
 import dev.wilburomae.tuttracker.models.Assignment;
 import dev.wilburomae.tuttracker.models.AssignmentStage;
-import dev.wilburomae.tuttracker.views.dialogs.UploadDialog;
 
 public class InboxAdapter extends AssignmentsAdapter {
     public InboxAdapter(Fragment fragment, List<Assignment> assignments) {
@@ -43,13 +41,7 @@ public class InboxAdapter extends AssignmentsAdapter {
                     } else {
                         assignment.setDateGraded(Constants.getFormattedDate());
 
-                        Bundle args = new Bundle();
-                        args.putSerializable("assignment", assignment);
-                        args.putSerializable("stage", AssignmentStage.TO_GRADE);
-
-                        UploadDialog dialogFragment = new UploadDialog();
-                        dialogFragment.setArguments(args);
-                        dialogFragment.show(getFragmentManager(), UploadDialog.class.getName());
+                        Constants.showUploadDialog(getFragmentManager(), assignment, AssignmentStage.TO_GRADE);
                     }
                 }
             });
@@ -69,13 +61,7 @@ public class InboxAdapter extends AssignmentsAdapter {
                         assignment.setStudentName(user.getDisplayName());
                         assignment.setDateSubmitted(Constants.getFormattedDate());
 
-                        Bundle args = new Bundle();
-                        args.putSerializable("assignment", assignment);
-                        args.putSerializable("stage", AssignmentStage.TO_SUBMIT);
-
-                        UploadDialog dialogFragment = new UploadDialog();
-                        dialogFragment.setArguments(args);
-                        dialogFragment.show(getFragmentManager(), UploadDialog.class.getName());
+                        Constants.showUploadDialog(getFragmentManager(), assignment, AssignmentStage.TO_SUBMIT);
                     }
                 }
             });

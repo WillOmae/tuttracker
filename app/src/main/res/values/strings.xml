@@ -28,4 +28,10 @@
     <string name="dialog_upload_header_grade">Grade</string>
     <string name="entry_lists_grade_separator">/</string>
     <string name="entry_lists_grade">Grade</string>
+    <string name="fragment_stats_assigned"># Assigned:</string>
+    <string name="fragment_stats_submitted"># Submitted:</string>
+    <string name="fragment_stats_graded"># Graded:</string>
+    <string name="fragment_stats_archived"># Archived:</string>
+    <string name="fragment_stats_header_1">From me</string>
+    <string name="fragment_stats_header_2">To me</string>
 </resources>

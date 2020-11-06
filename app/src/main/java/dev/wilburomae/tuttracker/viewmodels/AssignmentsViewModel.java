@@ -19,12 +19,17 @@ import dev.wilburomae.tuttracker.managers.AssignmentManager;
 import dev.wilburomae.tuttracker.models.Assignment;
 
 public class AssignmentsViewModel extends ViewModel {
+    private final MutableLiveData<List<Assignment>> mCompleteLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Assignment>> mOutboxLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Assignment>> mInboxLiveData = new MutableLiveData<>();
     private final MutableLiveData<List<Assignment>> mArchivesLiveData = new MutableLiveData<>();
 
     public AssignmentsViewModel() {
         reset();
+    }
+
+    public LiveData<List<Assignment>> getCompleteData() {
+        return mCompleteLiveData;
     }
 
     public LiveData<List<Assignment>> getOutboxData() {
@@ -46,7 +51,8 @@ public class AssignmentsViewModel extends ViewModel {
                 Assignment assignment = snapshot.getValue(Assignment.class);
                 if (assignment != null) {
                     purgeFromAllLiveData(assignment);
-
+                    addToLiveData(mCompleteLiveData, assignment);
+                    
                     if (Constants.isDateSet(assignment.getDateGraded())) {
                         addToLiveData(mArchivesLiveData, assignment);
                     } else if (Constants.isDateSet(assignment.getDateSubmitted())) {

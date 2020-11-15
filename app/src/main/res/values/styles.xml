@@ -15,6 +15,18 @@
         <item name="boxBackgroundColor">#fff</item>
     </style>
 
+    <style name="TabAppearance">
+        <item name="tabTextAppearance">@style/TabTextAppearance</item>
+        <item name="tabIndicatorColor">@color/accent</item>
+        <item name="tabMode">fixed</item>
+        <item name="backgroundColor">@color/primary</item>
+    </style>
+
+    <style name="TabTextAppearance">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

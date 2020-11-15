@@ -25,18 +25,24 @@ public class AssignmentManager {
     private static final DatabaseReference DB_ROOT = FirebaseDatabase.getInstance().getReference();
     private static final DatabaseReference DB_ASSIGNMENTS = DB_ROOT.child("assignments");
 
-    public static UploadTask upload(Assignment assignment, Uri uri, AssignmentStage stage) {
-        DB_ASSIGNMENTS.child(assignment.getId()).setValue(assignment);
-
+    public static UploadTask upload(Assignment assignment, Uri uri, String mimeType, AssignmentStage stage) {
+        UploadTask task = null;
         switch (stage) {
             case TO_ASSIGN:
-                return FOLDER_ASSIGNED.child(assignment.getId()).putFile(uri);
+                assignment.setMimeAssigned(mimeType);
+                task = FOLDER_ASSIGNED.child(assignment.getId()).putFile(uri);
+                break;
             case TO_SUBMIT:
-                return FOLDER_SUBMITTED.child(assignment.getId()).putFile(uri);
+                assignment.setMimeSubmitted(mimeType);
+                task = FOLDER_SUBMITTED.child(assignment.getId()).putFile(uri);
+                break;
             case TO_GRADE:
-                return FOLDER_GRADED.child(assignment.getId()).putFile(uri);
+                assignment.setMimeGraded(mimeType);
+                task = FOLDER_GRADED.child(assignment.getId()).putFile(uri);
+                break;
         }
-        return null;
+        DB_ASSIGNMENTS.child(assignment.getId()).setValue(assignment);
+        return task;
     }
 
     public static void fetch(String email, ChildEventListener listener) {
@@ -47,23 +53,35 @@ public class AssignmentManager {
     public static Object[] open(Context context, Assignment assignment, AssignmentStage stage) {
         if (isExternalStorageWritable()) {
             File cacheDir = context.getCacheDir();
-            Object[] array = new Object[2];
+            Object[] array = new Object[3];
             switch (stage) {
                 case TO_ASSIGN:
                     File assignedDir = new File(cacheDir, "assigned");
                     if (!assignedDir.exists()) assignedDir.mkdir();
-                    array[0] = new File(assignedDir, assignment.getTitle());
-                    array[1] = FOLDER_ASSIGNED.child(assignment.getId()).getFile((File) array[0]);
+                    File assignedFile = new File(assignedDir, assignment.getTitle());
+                    array[0] = assignedFile;
+                    if (!assignedFile.exists())
+                        array[1] = FOLDER_ASSIGNED.child(assignment.getId()).getFile(assignedFile);
+                    array[2] = assignment.getMimeAssigned();
+                    break;
                 case TO_SUBMIT:
                     File submittedDir = new File(cacheDir, "submitted");
                     if (!submittedDir.exists()) submittedDir.mkdir();
-                    array[0] = new File(submittedDir, assignment.getTitle());
-                    array[1] = FOLDER_SUBMITTED.child(assignment.getId()).getFile((File) array[0]);
+                    File submittedFile = new File(submittedDir, assignment.getTitle());
+                    array[0] = submittedFile;
+                    if (!submittedFile.exists())
+                        array[1] = FOLDER_SUBMITTED.child(assignment.getId()).getFile(submittedFile);
+                    array[2] = assignment.getMimeSubmitted();
+                    break;
                 case TO_GRADE:
                     File gradedDir = new File(cacheDir, "graded");
                     if (!gradedDir.exists()) gradedDir.mkdir();
-                    array[0] = new File(gradedDir, assignment.getTitle());
-                    array[1] = FOLDER_GRADED.child(assignment.getId()).getFile((File) array[0]);
+                    File gradedFile = new File(gradedDir, assignment.getTitle());
+                    array[0] = gradedFile;
+                    if (!gradedFile.exists())
+                        array[1] = FOLDER_GRADED.child(assignment.getId()).getFile(gradedFile);
+                    array[2] = assignment.getMimeGraded();
+                    break;
             }
             return array;
         } else {

@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -301,7 +302,8 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
     private void upload() {
         Toast.makeText(getContext(), "Upload started...", Toast.LENGTH_SHORT).show();
 
-        UploadTask task = AssignmentManager.upload(mAssignment, mContentUri, mStage);
+        String mimeType = getMimeType(mContentUri);
+        UploadTask task = AssignmentManager.upload(mAssignment, mContentUri, mimeType, mStage);
         if (task != null) {
             task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -317,6 +319,17 @@ public class UploadDialog extends DialogFragment implements DatePickerDialog.OnD
                 }
             });
         }
+    }
+
+    private String getMimeType(Uri fileUri) {
+        Cursor cursor = mContext.getContentResolver().query(fileUri, new String[]{"mime_type"}, null, null, null);
+        if (cursor == null) return "application/pdf";
+
+        cursor.moveToFirst();
+        String mimeType = cursor.getString(cursor.getColumnIndex("mime_type"));
+        cursor.close();
+
+        return mimeType;
     }
 
     @Override

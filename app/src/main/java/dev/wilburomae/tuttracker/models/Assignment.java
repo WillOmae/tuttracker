@@ -18,11 +18,14 @@ public class Assignment implements Serializable {
     private String mDateDue;
     private String mDateSubmitted;
     private String mDateGraded;
+    private String mMimeAssigned;
+    private String mMimeSubmitted;
+    private String mMimeGraded;
 
     public Assignment() {
     }
 
-    public Assignment(String id, String title, String description, String tutorId, String tutorName, String tutorEmail, String studentId, String studentName, String studentEmail, double gradeScored, double gradeMax, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded) {
+    public Assignment(String id, String title, String description, String tutorId, String tutorName, String tutorEmail, String studentId, String studentName, String studentEmail, double gradeScored, double gradeMax, String dateAssigned, String dateDue, String dateSubmitted, String dateGraded, String mimeAssigned, String mimeSubmitted, String mimeGraded) {
         mId = id;
         mTitle = title;
         mDescription = description;
@@ -38,6 +41,9 @@ public class Assignment implements Serializable {
         mDateDue = dateDue;
         mDateSubmitted = dateSubmitted;
         mDateGraded = dateGraded;
+        mMimeAssigned = mimeAssigned;
+        mMimeSubmitted = mimeSubmitted;
+        mMimeGraded = mimeGraded;
     }
 
     public String getId() {
@@ -158,5 +164,29 @@ public class Assignment implements Serializable {
 
     public void setDateGraded(String dateGraded) {
         mDateGraded = dateGraded;
+    }
+
+    public String getMimeAssigned() {
+        return mMimeAssigned;
+    }
+
+    public void setMimeAssigned(String mimeAssigned) {
+        mMimeAssigned = mimeAssigned;
+    }
+
+    public String getMimeSubmitted() {
+        return mMimeSubmitted;
+    }
+
+    public void setMimeSubmitted(String mimeSubmitted) {
+        mMimeSubmitted = mimeSubmitted;
+    }
+
+    public String getMimeGraded() {
+        return mMimeGraded;
+    }
+
+    public void setMimeGraded(String mimeGraded) {
+        mMimeGraded = mimeGraded;
     }
 }

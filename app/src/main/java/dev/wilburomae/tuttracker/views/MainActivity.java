@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -112,13 +113,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void modifyNavDrawerUserDetails() {
         MenuItem navLogout = mNavigationView.getMenu().findItem(R.id.nav_menu_log_out);
         MenuItem navSignin = mNavigationView.getMenu().findItem(R.id.nav_menu_sign_in);
+        TextView emailHolder = mNavigationView.getHeaderView(0).findViewById(R.id.nav_drawer_header_email);
         if (mUser == null) {
             navLogout.setVisible(false);
             navSignin.setVisible(true);
+            emailHolder.setText("");
             mAssignmentsViewModel.reset();
         } else {
             navLogout.setVisible(true);
             navSignin.setVisible(false);
+            emailHolder.setText(mUser.getEmail());
             mAssignmentsViewModel.setup(mUser);
         }
     }

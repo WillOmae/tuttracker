@@ -13,14 +13,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textSize="40sp"
-        android:textColor="#eeeeee" />
+        android:textSize="36sp"
+        android:textColor="#ffffff" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lines="1"
-        android:text="Distance learning made easy"
+        android:text="@string/tagline"
+        android:textSize="12sp"
+        android:textColor="#eeeeee" />
+
+    <TextView
+        android:id="@+id/nav_drawer_header_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:lines="1"
         android:textSize="12sp"
         android:textColor="#eeeeee" />
 </LinearLayout>

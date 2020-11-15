@@ -34,4 +34,5 @@
     <string name="fragment_stats_archived"># Archived:</string>
     <string name="fragment_stats_header_1">From me</string>
     <string name="fragment_stats_header_2">To me</string>
+    <string name="tagline">Tutoring made easy</string>
 </resources>
